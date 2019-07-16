@@ -1,0 +1,21 @@
+doctype
+html(lang="en")
+  head
+    meta(charset="utf-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+
+    title OpenAPI Candy
+
+    link(rel="stylesheet" href=assets.bootstrap('css/bootstrap.min.css'))
+    link(rel="stylesheet" href=assets.newAgeTheme('vendor/fontawesome-free/css/all.min.css'))
+    link(href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet")
+    link(rel="stylesheet" href=assets.newAgeTheme('css/new-age.min.css'))
+    
+    script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" type="text/javascript" defer)
+    script(type="javascript" src=assets.bootstrap('js/bootstrap.min.js') defer)
+      
+    script(type="module" src=assets.client('js/oc-spec.mjs'))
+  body      
+    .container-fluid
+      block content

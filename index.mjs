@@ -1,0 +1,20 @@
+import path from 'path'
+import express from 'express'
+import app from './lib/app.mjs'
+import assetLoader from './lib/assets.mjs'
+
+const assets = assetLoader(app)
+
+app.use('/specs', express.static('./specs'))
+
+app.get('/', (req, res) => {
+  const content = {
+    title: 'My API',
+    version: '0.15.1',
+    specPath: 'specs/petstore-example-0.15.1.json'
+  }
+
+  res.render('index', { content, assets })
+})
+
+export default app
