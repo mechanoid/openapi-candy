@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
   const content = {
     title: 'My API',
     version: '0.15.1',
-    specPath: 'specs/petstore-example-0.15.1.json'
+    specPath: 'specs/petstore-example.3.0.json'
   }
 
   res.render('index', { content, assets })

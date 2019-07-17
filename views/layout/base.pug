@@ -13,9 +13,10 @@ html(lang="en")
     link(rel="stylesheet" href=assets.newAgeTheme('css/new-age.min.css'))
     
     script(src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" type="text/javascript" defer)
+    
     script(type="javascript" src=assets.bootstrap('js/bootstrap.min.js') defer)
       
-    script(type="module" src=assets.client('js/oc-spec.mjs'))
+    script(type="module" src=assets.client('js/oc-spec.mjs') defer)
   body      
     .container-fluid
       block content

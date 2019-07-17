@@ -25,6 +25,7 @@
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "pug": "^2.0.4",
-    "startbootstrap-new-age": "^5.0.6"
+    "startbootstrap-new-age": "^5.0.6",
+    "yaml-js": "^0.2.3"
   }
 }
