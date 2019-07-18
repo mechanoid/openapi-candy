@@ -10,5 +10,9 @@ export const header = info => {
     result.appendChild(description)
   }
 
+  // TODO: render `termsOfService` if available
+  // TODO: render `contact` if available
+  // TODO: render `license` if available
+
   return result
 }
