@@ -1,6 +1,10 @@
+import { render } from '/assets/client/js/oc-minitemp.mjs'
+import { header } from '/assets/client/js/oc-header.mjs'
+
 const loadSpec = async specPath =>
   fetch(specPath)
     .then(res => {
+      console.log('fetched')
       if (!res.ok) {
         throw new Error(`spec file could not be retrieved: ${res}`)
       }
@@ -8,11 +12,16 @@ const loadSpec = async specPath =>
     })
     .then(res => res.json())
 
+const debug = spec => {
+  return render(`<pre>${JSON.stringify(spec, false, 2)}</pre>`)
+}
+
 class OpenAPICandySpec extends HTMLElement {
   async connectedCallback () {
     try {
       const spec = await this.spec()
-      console.log(spec)
+
+      this.render(spec)
     } catch (e) {
       console.log(e)
     }
@@ -30,10 +39,13 @@ class OpenAPICandySpec extends HTMLElement {
     }
 
     this._spec = await loadSpec(specPath)
-    return spec
+    return this._spec
   }
 
-  render () {}
+  render (spec) {
+    this.append(header(spec.info))
+    this.append(debug(spec))
+  }
 }
 
 customElements.define('oc-spec', OpenAPICandySpec)
