@@ -15,11 +15,20 @@ export const renderPathItem = (pathItemName, pathItem) => {
 export const renderPaths = paths => {
   const pathItemNames = Object.keys(paths)
 
-  const renderedPaths = pathItemNames.map(pathItemName =>
-    renderPathItem(pathItemName, paths[pathItemName])
-  )
+  const renderedPaths = pathItemNames.map(pathItemName => {
+    const card = render(`<div class="card mb-3"></div>`)
+    const cardBody = render(`<div class="card-body"></div>`)
+
+    const item = renderPathItem(pathItemName, paths[pathItemName])
+
+    card.appendChild(cardBody)
+    cardBody.appendChild(item)
+
+    return card
+  })
 
   const result = render(`<oc-paths></oc-paths>`)
+
   injectElements(result, renderedPaths)
 
   return result

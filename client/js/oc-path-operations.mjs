@@ -98,9 +98,61 @@ class OCPathOperations extends HTMLElement {
     this.linkRelID = linkRelID
     this.pathItemRef = pathItemRef
   }
+
   connectedCallback () {
     this.renderTabMenu()
     this.renderTabContent()
+
+    this.tabLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault()
+
+        const href = link.getAttribute('href')
+
+        if (href && href[0] === '#') {
+          const tabID = href.slice(1)
+          const tab = document.getElementById(tabID)
+
+          this.deactivateAllTabs()
+          link.classList.add('active')
+          tab.classList.add('active', 'show')
+        }
+      })
+    })
+  }
+
+  deactivateAllTabs () {
+    this.tabs.forEach(tab => tab.classList.remove('active', 'show'))
+    this.tabLinks.forEach(tab => tab.classList.remove('active'))
+  }
+
+  get tabs () {
+    if (this._tabs) {
+      return this._tabs
+    }
+
+    const tabs = this.tabContent.querySelectorAll('.tab-pane')
+
+    if (tabs.length > 0) {
+      this._tabs = Array.prototype.slice.call(tabs)
+      return this._tabs
+    }
+
+    return []
+  }
+
+  get tabLinks () {
+    if (this._tabLinks) {
+      return this._tabLinks
+    }
+
+    const links = this.tabMenu.querySelectorAll('a')
+    if (links.length > 0) {
+      this._tabLinks = Array.prototype.slice.call(links)
+      return this._tabLinks
+    }
+
+    return []
   }
 
   renderTabMenu () {
