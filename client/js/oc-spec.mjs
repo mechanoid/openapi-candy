@@ -1,4 +1,4 @@
-import { render } from '/assets/client/js/oc-minitemp.mjs'
+import { fromString } from '/assets/client/js/oc-minitemp.mjs'
 import { renderHeader } from '/assets/client/js/oc-header.mjs'
 import { renderPaths } from '/assets/client/js/oc-paths.mjs'
 
@@ -14,7 +14,7 @@ const loadSpec = async specPath =>
     .then(res => res.json())
 
 const renderDebug = spec => {
-  return render(`<pre>${JSON.stringify(spec, false, 2)}</pre>`)
+  return fromString(`<pre>${JSON.stringify(spec, false, 2)}</pre>`)
 }
 
 class OpenAPICandySpec extends HTMLElement {

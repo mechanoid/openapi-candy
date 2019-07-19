@@ -1,4 +1,4 @@
-export const render = html => {
+export const fromString = html => {
   const container = document.createElement('DIV')
   container.innerHTML = html
   return container.firstChild

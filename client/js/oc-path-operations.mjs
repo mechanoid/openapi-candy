@@ -1,5 +1,5 @@
 import { ulid } from '/assets/vendor/ulid/index.esm.js'
-import { render, injectElements } from '/assets/client/js/oc-minitemp.mjs'
+import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
 
 const SUPPORTED_HTTP_VERBS = [
   'get',
@@ -24,8 +24,8 @@ const pathItemOperations = pathItem =>
 
 const renderOperationMenuTab = (operationID, verb, operation, firstItem) => {
   const activeClass = firstItem ? 'active' : ''
-  const tab = render('<li class="nav-item"></li>')
-  const link = render(
+  const tab = fromString('<li class="nav-item"></li>')
+  const link = fromString(
     `<a class="nav-link ${activeClass}" id="${operationID}-tab" data-toggle="pill" href="#${operationID}" role="tab" aria-controls="${operationID}" aria-selected="${!!firstItem}">
       ${verb.toUpperCase()}
     </a>`
@@ -39,10 +39,10 @@ const renderOperationMenuTab = (operationID, verb, operation, firstItem) => {
 const renderOperationContentTab = (operationID, verb, operation, firstItem) => {
   const activeClass = firstItem ? 'show active' : ''
 
-  const tab = render(
+  const tab = fromString(
     `<div class="tab-pane fade ${activeClass}" id="${operationID}" role="tabpanel" aria-labelledby="${operationID}-tab"></div>`
   )
-  const content = render(`<p>hello ${operationID}</p>`)
+  const content = fromString(`<p>hello ${operationID}</p>`)
 
   tab.appendChild(content)
 
@@ -61,7 +61,7 @@ const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
     )
   })
 
-  const tabMenuList = render(
+  const tabMenuList = fromString(
     `<ul class="nav nav-pills mb-3" role="tablist" id="${linkRelID}-tab-menu"></ul>`
   )
 
@@ -82,7 +82,7 @@ const renderOperationsTabContent = (linkRelID, pathItem, operations) => {
     )
   })
 
-  const tabList = render(
+  const tabList = fromString(
     `<div class="tab-content" id="${linkRelID}-tab-content"></div>`
   )
 

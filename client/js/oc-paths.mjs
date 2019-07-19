@@ -1,8 +1,8 @@
-import { render, injectElements } from '/assets/client/js/oc-minitemp.mjs'
+import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
 import { renderPathOperations } from '/assets/client/js/oc-path-operations.mjs'
 
 export const renderPathItem = (pathItemName, pathItem) => {
-  const result = render(`<article>
+  const result = fromString(`<article>
     <h3>${pathItem['x-link-rel']}</h3>
   </article>`)
 
@@ -16,8 +16,8 @@ export const renderPaths = paths => {
   const pathItemNames = Object.keys(paths)
 
   const renderedPaths = pathItemNames.map(pathItemName => {
-    const card = render(`<div class="card mb-3"></div>`)
-    const cardBody = render(`<div class="card-body"></div>`)
+    const card = fromString(`<div class="card mb-3"></div>`)
+    const cardBody = fromString(`<div class="card-body"></div>`)
 
     const item = renderPathItem(pathItemName, paths[pathItemName])
 
@@ -27,7 +27,7 @@ export const renderPaths = paths => {
     return card
   })
 
-  const result = render(`<oc-paths></oc-paths>`)
+  const result = fromString(`<oc-paths></oc-paths>`)
 
   injectElements(result, renderedPaths)
 
