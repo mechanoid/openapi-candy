@@ -3,3 +3,9 @@ export const render = html => {
   container.innerHTML = html
   return container.firstChild
 }
+
+export const concatHTML = htmlElements =>
+  htmlElements.map(el => el.outerHTML).join('\n')
+
+export const injectElements = (target, htmlElements) =>
+  htmlElements.forEach(el => target.appendChild(el))

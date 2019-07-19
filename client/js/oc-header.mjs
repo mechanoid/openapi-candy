@@ -1,6 +1,6 @@
 import { render } from '/assets/client/js/oc-minitemp.mjs'
 
-export const header = info => {
+export const renderHeader = info => {
   const result = render(`<header>
     <h2>${info.title} (${info.version})</h2>
   </header>`)

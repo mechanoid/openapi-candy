@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "pug": "^2.0.4",
     "startbootstrap-new-age": "^5.0.6",
+    "ulid": "^2.3.0",
     "yaml-js": "^0.2.3"
   }
 }

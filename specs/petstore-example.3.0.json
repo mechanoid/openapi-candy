@@ -15,10 +15,9 @@
   ],
   "paths": {
     "/pets": {
+      "x-link-rel": "ps:pet-list",
       "get": {
         "summary": "List all pets",
-        "operationId": "listPets",
-        "tags": ["pets"],
         "parameters": [
           {
             "name": "limit",
@@ -64,8 +63,6 @@
       },
       "post": {
         "summary": "Create a pet",
-        "operationId": "createPets",
-        "tags": ["pets"],
         "responses": {
           "201": {
             "description": "Null response"
@@ -84,10 +81,9 @@
       }
     },
     "/pets/{petId}": {
+      "x-link-rel": "ps:pet",
       "get": {
         "summary": "Info for a specific pet",
-        "operationId": "showPetById",
-        "tags": ["pets"],
         "parameters": [
           {
             "name": "petId",
