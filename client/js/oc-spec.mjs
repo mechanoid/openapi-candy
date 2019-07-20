@@ -5,7 +5,6 @@ import { renderPaths } from '/assets/client/js/oc-paths.mjs'
 const loadSpec = async specPath =>
   fetch(specPath)
     .then(res => {
-      console.log('fetched')
       if (!res.ok) {
         throw new Error(`spec file could not be retrieved: ${res}`)
       }
