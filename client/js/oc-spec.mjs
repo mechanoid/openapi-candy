@@ -1,6 +1,7 @@
 import { fromString } from '/assets/client/js/oc-minitemp.mjs'
 import { renderHeader } from '/assets/client/js/oc-header.mjs'
 import { renderPaths } from '/assets/client/js/oc-paths.mjs'
+import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
 
 const loadSpec = async specPath =>
   fetch(specPath)
@@ -11,6 +12,10 @@ const loadSpec = async specPath =>
       return res
     })
     .then(res => res.json())
+    .then(res => ({
+      data: res,
+      baseUrl: baseUrl(specPath)
+    }))
 
 const renderDebug = spec => {
   return fromString(`<pre>${JSON.stringify(spec, false, 2)}</pre>`)
@@ -21,7 +26,7 @@ class OpenAPICandySpec extends HTMLElement {
     try {
       const spec = await this.spec()
 
-      this.render(spec)
+      await this.render(spec)
     } catch (e) {
       console.log(e)
     }
@@ -42,9 +47,10 @@ class OpenAPICandySpec extends HTMLElement {
     return this._spec
   }
 
-  render (spec) {
-    this.append(renderHeader(spec.info))
-    this.append(renderPaths(spec.paths))
+  async render (spec) {
+    const meta = { baseUrl: spec.baseUrl }
+    this.append(renderHeader(spec.data.info))
+    this.append(await renderPaths(spec.data.paths, meta))
     this.append(renderDebug(spec))
   }
 }

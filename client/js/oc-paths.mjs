@@ -1,5 +1,6 @@
 import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
 import { renderPathOperations } from '/assets/client/js/oc-path-operations.mjs'
+import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 
 const appendAdditionalInformation = (
   infoType,
@@ -30,20 +31,27 @@ export const renderPathItem = (pathItemName, pathItem) => {
   appendAdditionalInformation('summary', pathItem, result, { lead: true })
   appendAdditionalInformation('description', pathItem, result)
 
+  // TODO: render path generic parameters (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-7)
   const operations = renderPathOperations(pathItem)
   result.appendChild(operations)
 
   return result
 }
 
-export const renderPaths = paths => {
+export const renderPaths = async (paths, options = {}) => {
   const pathItemNames = Object.keys(paths)
 
-  const renderedPaths = pathItemNames.map(pathItemName => {
+  const renderedPathsFutures = pathItemNames.map(async pathItemName => {
+    const pathItem = paths[pathItemName]
+
     const card = fromString(`<div class="card mb-3"></div>`)
     const cardBody = fromString(`<div class="card-body"></div>`)
 
-    const item = renderPathItem(pathItemName, paths[pathItemName])
+    const resolvedPathItem = await resolveObject(pathItem, {
+      baseUrl: options.baseUrl
+    })
+
+    const item = renderPathItem(pathItemName, resolvedPathItem)
 
     card.appendChild(cardBody)
     cardBody.appendChild(item)
@@ -53,6 +61,7 @@ export const renderPaths = paths => {
 
   const result = fromString(`<oc-paths></oc-paths>`)
 
+  const renderedPaths = await Promise.all(renderedPathsFutures)
   injectElements(result, renderedPaths)
 
   return result

@@ -83,43 +83,8 @@
       }
     },
     "/pets/{petId}": {
-      "x-link-rel": "ps:pet",
-      "get": {
-        "summary": "Info for a specific pet",
-        "parameters": [
-          {
-            "name": "petId",
-            "in": "path",
-            "required": true,
-            "description": "The id of the pet to retrieve",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Expected response to a valid request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "default": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      }
+      "$ref": "http://localhost:5001/specs/components/petstore-example.3.0-paths.json#/pet-instance-path",
+      "x-link-rel": "ps:pet"
     }
   },
   "components": {

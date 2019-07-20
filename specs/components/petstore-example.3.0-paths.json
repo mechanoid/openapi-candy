@@ -1,0 +1,40 @@
+{
+  "pet-instance-path": {
+    "get": {
+      "summary": "Info for a specific pet",
+      "parameters": [
+        {
+          "name": "petId",
+          "in": "path",
+          "required": true,
+          "description": "The id of the pet to retrieve",
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Expected response to a valid request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "/specs/petstore-example.3.0.json#/components/schemas/Pet"
+              }
+            }
+          }
+        },
+        "default": {
+          "description": "unexpected error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "/specs/petstore-example.3.0.json#/components/schemas/Error"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
