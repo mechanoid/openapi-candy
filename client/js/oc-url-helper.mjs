@@ -11,9 +11,5 @@ export const origin = () => {
 export const baseUrl = urlString => {
   const url = new URL(urlString, origin())
 
-  if (url.origin) {
-    return url.origin
-  }
-
-  return `${url.protocol}//${url.host}`
+  return url.toString()
 }
