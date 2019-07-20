@@ -1,5 +1,6 @@
 import { ulid } from '/assets/vendor/ulid/index.esm.js'
 import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
+import { OCPathOperation } from '/assets/client/js/oc-path-operation.mjs'
 
 const SUPPORTED_HTTP_VERBS = [
   'get',
@@ -42,7 +43,7 @@ const renderOperationContentTab = (operationID, verb, operation, firstItem) => {
   const tab = fromString(
     `<div class="tab-pane fade ${activeClass}" id="${operationID}" role="tabpanel" aria-labelledby="${operationID}-tab"></div>`
   )
-  const content = fromString(`<p>hello ${operationID}</p>`)
+  const content = new OCPathOperation(verb, operation)
 
   tab.appendChild(content)
 
@@ -51,7 +52,8 @@ const renderOperationContentTab = (operationID, verb, operation, firstItem) => {
 
 const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
   const tabs = Object.keys(operations).map((verb, index) => {
-    const operationID = `${linkRelID}-${verb}`
+    const operation = operations[verb]
+    const operationID = operation.operationId || `${linkRelID}-${verb}`
 
     return renderOperationMenuTab(
       operationID,
@@ -72,7 +74,8 @@ const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
 
 const renderOperationsTabContent = (linkRelID, pathItem, operations) => {
   const tabs = Object.keys(operations).map((verb, index) => {
-    const operationID = `${linkRelID}-${verb}`
+    const operation = operations[verb]
+    const operationID = operation.operationId || `${linkRelID}-${verb}`
 
     return renderOperationContentTab(
       operationID,
