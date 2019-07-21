@@ -22,3 +22,23 @@ body {
 .card {
   border-radius: var(--oc-border-radius);
 }
+
+/* callouts */
+.oc-callout {
+  border: 1px solid #eee;
+  padding: 0.5rem;
+}
+
+.oc-callout p {
+  padding: 0;
+  margin: 0;
+}
+
+.oc-callout-info {
+  border-left: 0.25rem solid #5bc0de;
+}
+
+oc-path-operations .tab-content {
+  padding-top: 0.5rem;
+  border-top: 1px solid #eee;
+}

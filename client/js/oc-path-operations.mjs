@@ -23,11 +23,11 @@ const pathItemOperations = pathItem =>
     return ops
   }, {})
 
-const renderOperationMenuTab = (operationID, verb, operation, firstItem) => {
+const renderOperationMenuTab = (operationId, verb, operation, firstItem) => {
   const activeClass = firstItem ? 'active' : ''
   const tab = fromString('<li class="nav-item"></li>')
   const link = fromString(
-    `<a class="nav-link ${activeClass}" id="${operationID}-tab" data-toggle="pill" href="#${operationID}" role="tab" aria-controls="${operationID}" aria-selected="${!!firstItem}">
+    `<a class="nav-link ${activeClass}" id="${operationId}-tab" data-toggle="pill" href="#${operationId}" role="tab" aria-controls="${operationId}" aria-selected="${!!firstItem}">
       ${verb.toUpperCase()}
     </a>`
   )
@@ -37,11 +37,11 @@ const renderOperationMenuTab = (operationID, verb, operation, firstItem) => {
   return tab
 }
 
-const renderOperationContentTab = (operationID, verb, operation, firstItem) => {
+const renderOperationContentTab = (operationId, verb, operation, firstItem) => {
   const activeClass = firstItem ? 'show active' : ''
 
   const tab = fromString(
-    `<div class="tab-pane fade ${activeClass}" id="${operationID}" role="tabpanel" aria-labelledby="${operationID}-tab"></div>`
+    `<div class="tab-pane fade ${activeClass}" id="${operationId}" role="tabpanel" aria-labelledby="${operationId}-tab"></div>`
   )
   const content = new OCPathOperation(verb, operation)
 
@@ -53,10 +53,10 @@ const renderOperationContentTab = (operationID, verb, operation, firstItem) => {
 const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
   const tabs = Object.keys(operations).map((verb, index) => {
     const operation = operations[verb]
-    const operationID = operation.operationId || `${linkRelID}-${verb}`
+    const operationId = operation.operationId || `${linkRelID}-${verb}`
 
     return renderOperationMenuTab(
-      operationID,
+      operationId,
       verb,
       operations[verb],
       index === 0
@@ -75,10 +75,10 @@ const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
 const renderOperationsTabContent = (linkRelID, pathItem, operations) => {
   const tabs = Object.keys(operations).map((verb, index) => {
     const operation = operations[verb]
-    const operationID = operation.operationId || `${linkRelID}-${verb}`
+    const operationId = operation.operationId || `${linkRelID}-${verb}`
 
     return renderOperationContentTab(
-      operationID,
+      operationId,
       verb,
       operations[verb],
       index === 0

@@ -20,6 +20,11 @@
       "x-link-rel": "ps:pet-list",
       "get": {
         "summary": "List all pets",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.",
+        "externalDocs": {
+          "description": "for more information give a look to this external site.",
+          "url": "https://www.some-external-doc-reference.de"
+        },
         "parameters": [
           {
             "name": "limit",
