@@ -1,0 +1,24 @@
+:root {
+  --oc-border-radius-default: 1px;
+
+  --oc-border-radius: var(
+    --oc-border-radius-custom,
+    var(--oc-border-radius-default)
+  );
+}
+
+body {
+  color: rgb(10, 20, 10);
+}
+
+/* nav pills */
+.nav.nav-pills a {
+  border-radius: var(--oc-border-radius);
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
+/* cards */
+.card {
+  border-radius: var(--oc-border-radius);
+}
