@@ -47,9 +47,11 @@ export const renderPaths = async (paths, options = {}) => {
     const card = fromString(`<div class="card mb-3"></div>`)
     const cardBody = fromString(`<div class="card-body"></div>`)
 
+    console.log(pathItem)
     const resolvedPathItem = await resolveObject(pathItem, {
       baseUrl: options.baseUrl
     })
+    console.log(resolvedPathItem)
 
     const item = renderPathItem(pathItemName, resolvedPathItem)
 
