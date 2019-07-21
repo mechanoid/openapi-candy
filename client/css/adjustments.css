@@ -42,3 +42,8 @@ oc-path-operations .tab-content {
   padding-top: 0.5rem;
   border-top: 1px solid #eee;
 }
+
+oc-path-operation .lead {
+  font-size: 1rem;
+  font-weight: bold;
+}

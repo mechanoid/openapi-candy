@@ -14,18 +14,20 @@ export class OCPathOperation extends HTMLElement {
   }
 
   renderSummary () {
-    this.renderOptionalText('summary')
+    this.renderOptionalText('summary', true)
   }
 
   renderDescription () {
     this.renderOptionalText('description')
   }
 
-  renderOptionalText (textProperty) {
+  renderOptionalText (textProperty, lead = false) {
     // TODO: support commonmark
     if (this.operation[textProperty]) {
       const text = fromString(
-        `<p class="operation-info ${textProperty}">${this.operation[textProperty]}</p>`
+        `<p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">${
+          this.operation[textProperty]
+        }</p>`
       )
       this.appendChild(text)
     }

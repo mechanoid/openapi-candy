@@ -108,8 +108,6 @@ class OCPathOperations extends HTMLElement {
 
     this.tabLinks.forEach(link => {
       link.addEventListener('click', e => {
-        e.preventDefault()
-
         const href = link.getAttribute('href')
 
         if (href && href[0] === '#') {
