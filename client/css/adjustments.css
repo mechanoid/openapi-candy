@@ -11,6 +11,10 @@ body {
   color: rgb(10, 20, 10);
 }
 
+h5 {
+  font-size: 1.1rem;
+}
+
 /* nav pills */
 .nav.nav-pills a {
   border-radius: var(--oc-border-radius);
@@ -27,6 +31,7 @@ body {
 .oc-callout {
   border: 1px solid #eee;
   padding: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .oc-callout p {

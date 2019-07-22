@@ -1,16 +1,74 @@
 import { fromString } from '/assets/client/js/oc-minitemp.mjs'
+import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 
+const renderParameterSection = (type, parameters) => {
+  if (parameters.length > 0) {
+    const paramSection = fromString(`<oc-param-section>
+      <h5>${type} parameters</h5>
+      <table class="table"><tbody></tbody></table>
+    </oc-param-section>`)
+    const table = paramSection.querySelector('table')
+    const body = table.querySelector('tbody')
+
+    parameters.forEach(param => {
+      // TODO: add commonmark rendering for description
+      const row = fromString(`<tr>
+          <td>${param.name}</td>
+          <td>${param.description}</td>
+          <td>${param.required ? 'required' : ''}</td>
+          <td>${
+  param.deprecated
+    ? '<span class="badge badge-secondary">deprecated</span>'
+    : ''
+}</td>
+        </tr>`)
+
+      body.appendChild(row)
+    })
+
+    table.appendChild(body)
+
+    return paramSection
+  }
+}
 export class OCPathOperation extends HTMLElement {
-  constructor (verb, operation) {
+  constructor (pathItem, verb, operation) {
     super()
+    this.pathItem = pathItem.data
+    this.baseUrl = pathItem.meta.baseUrl
     this.verb = verb
     this.operation = operation
   }
 
-  connectedCallback () {
+  async connectedCallback () {
     this.renderSummary()
     this.renderDescription()
     this.renderExternalDocs()
+    await this.renderParameters()
+  }
+
+  async renderParameters () {
+    const parameterConfig = this.operation.parameters
+    const result = fromString('<oc-parameters>')
+
+    if (parameterConfig) {
+      const parameters = await resolveObject(parameterConfig, {
+        baseUrl: this.baseUrl
+      })
+
+      const paramTypes = ['header', 'path', 'query', 'cookie']
+
+      paramTypes.forEach(type => {
+        const params = parameters.data.filter(p => p.in === type)
+
+        const table = renderParameterSection(type, params)
+        if (table) {
+          result.appendChild(table)
+        }
+      })
+
+      this.appendChild(result)
+    }
   }
 
   renderSummary () {

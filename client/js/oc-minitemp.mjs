@@ -1,7 +1,7 @@
 export const fromString = html => {
-  const container = document.createElement('DIV')
-  container.innerHTML = html
-  return container.firstChild
+  const container = document.createElement('template')
+  container.innerHTML = html.trim()
+  return container.content.firstChild
 }
 
 export const concatHTML = htmlElements =>

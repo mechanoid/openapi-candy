@@ -37,13 +37,19 @@ const renderOperationMenuTab = (operationId, verb, operation, firstItem) => {
   return tab
 }
 
-const renderOperationContentTab = (operationId, verb, operation, firstItem) => {
+const renderOperationContentTab = (
+  pathItem,
+  operationId,
+  verb,
+  operation,
+  firstItem
+) => {
   const activeClass = firstItem ? 'show active' : ''
 
   const tab = fromString(
     `<div class="tab-pane fade ${activeClass}" id="${operationId}" role="tabpanel" aria-labelledby="${operationId}-tab"></div>`
   )
-  const content = new OCPathOperation(verb, operation)
+  const content = new OCPathOperation(pathItem, verb, operation)
 
   tab.appendChild(content)
 
@@ -78,6 +84,7 @@ const renderOperationsTabContent = (linkRelID, pathItem, operations) => {
     const operationId = operation.operationId || `${linkRelID}-${verb}`
 
     return renderOperationContentTab(
+      pathItem,
       operationId,
       verb,
       operations[verb],
@@ -181,7 +188,7 @@ customElements.define('oc-path-operations', OCPathOperations)
 
 export const renderPathOperations = pathItem => {
   const linkRelID = ulid(pathItem['x-link-rel'])
-  const operations = pathItemOperations(pathItem)
+  const operations = pathItemOperations(pathItem.data)
 
   const pathOperations = new OCPathOperations(linkRelID, pathItem, operations)
 

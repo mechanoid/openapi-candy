@@ -24,12 +24,13 @@ const appendAdditionalInformation = (
 }
 
 export const renderPathItem = (pathItemName, pathItem) => {
+  const pathItemData = pathItem.data
   const result = fromString(`<article>
-    <h4>${pathItem['x-link-rel']} <strong>${pathItemName}</strong></h4>
+    <h4>${pathItemData['x-link-rel']} <strong>${pathItemName}</strong></h4>
   </article>`)
 
-  appendAdditionalInformation('summary', pathItem, result, { lead: true })
-  appendAdditionalInformation('description', pathItem, result)
+  appendAdditionalInformation('summary', pathItemData, result, { lead: true })
+  appendAdditionalInformation('description', pathItemData, result)
 
   // TODO: render path generic parameters (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-7)
   const operations = renderPathOperations(pathItem)

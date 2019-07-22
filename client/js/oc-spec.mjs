@@ -51,7 +51,7 @@ class OpenAPICandySpec extends HTMLElement {
     const meta = { baseUrl: spec.baseUrl }
     this.append(renderHeader(spec.data.info))
     this.append(await renderPaths(spec.data.paths, meta))
-    this.append(renderDebug(spec))
+    // this.append(renderDebug(spec))
   }
 }
 
