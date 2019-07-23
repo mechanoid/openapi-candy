@@ -52,3 +52,14 @@ oc-path-operation .lead {
   font-size: 1rem;
   font-weight: bold;
 }
+
+.oc-param-name {
+  font-weight: bold;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace;
+}
+
+.oc-param-example {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
+    monospace;
+}

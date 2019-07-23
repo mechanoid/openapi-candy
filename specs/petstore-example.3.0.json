@@ -34,7 +34,8 @@
             "schema": {
               "type": "integer",
               "format": "int32"
-            }
+            },
+            "example": 4
           }
         ],
         "responses": {

@@ -1,11 +1,24 @@
 import { fromString } from '/assets/client/js/oc-minitemp.mjs'
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 
+const badge = (param, text, options = {}) => {
+  const classes = options.classes ? options.classes : ''
+  return param
+    ? `<span class="badge badge-secondary ${classes}">${text}</span>`
+    : ''
+}
+
+// TODO: handle allowEmpty for params
 const renderParameterSection = (type, parameters) => {
   if (parameters.length > 0) {
     const paramSection = fromString(`<oc-param-section>
       <h5>${type} parameters</h5>
       <table class="table"><tbody></tbody></table>
+      <thead>
+        <th>parameter</th>
+        <th colspan="2"></th>
+        <th>example</th>
+      </thead>
     </oc-param-section>`)
     const table = paramSection.querySelector('table')
     const body = table.querySelector('tbody')
@@ -13,12 +26,19 @@ const renderParameterSection = (type, parameters) => {
     parameters.forEach(param => {
       // TODO: add commonmark rendering for description
       const row = fromString(`<tr>
-          <td>${param.name}</td>
+          <td><span class="oc-param-name">${param.name}</span></td>
           <td>${param.description}</td>
-          <td>${param.required ? 'required' : ''}</td>
+          <td>
+            ${badge(param.required, 'required', {
+    classes: 'badge-primary'
+  })}
+            ${badge(param.deprecated, 'deprecated', {
+    classes: 'badge-warning'
+  })}
+          </td>
           <td>${
-  param.deprecated
-    ? '<span class="badge badge-secondary">deprecated</span>'
+  param.example
+    ? `<pre class="oc-param-example">${param.example}</pre>`
     : ''
 }</td>
         </tr>`)
