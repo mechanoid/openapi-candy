@@ -13,12 +13,13 @@ const renderParameterSection = (type, parameters) => {
   if (parameters.length > 0) {
     const paramSection = fromString(`<oc-param-section>
       <h5>${type} parameters</h5>
-      <table class="table"><tbody></tbody></table>
-      <thead>
-        <th>parameter</th>
-        <th colspan="2"></th>
-        <th>example</th>
-      </thead>
+      <table class="table"><tbody></tbody>
+	      <thead>
+	        <th>parameter</th>
+	        <th colspan="2"></th>
+	        <th>example</th>
+	      </thead>
+			</table>
     </oc-param-section>`)
     const table = paramSection.querySelector('table')
     const body = table.querySelector('tbody')

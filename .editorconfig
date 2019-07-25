@@ -14,6 +14,9 @@ indent_size = 2
 [*.md]
 indent_style = space
 
+[*.pug]
+indent_style = space
+
 [package.json]
 indent_style = space
 indent_size = 2

@@ -25,9 +25,9 @@ const appendAdditionalInformation = (
 
 export const renderPathItem = (pathItemName, pathItem) => {
   const pathItemData = pathItem.data
-  const result = fromString(`<article>
+  const result = fromString(`<oc-path id="${pathItemData['x-link-rel']}">
     <h4>${pathItemData['x-link-rel']} <strong>${pathItemName}</strong></h4>
-  </article>`)
+  </oc-path>`)
 
   appendAdditionalInformation('summary', pathItemData, result, { lead: true })
   appendAdditionalInformation('description', pathItemData, result)

@@ -49,9 +49,34 @@ class OpenAPICandySpec extends HTMLElement {
 
   async render (spec) {
     const meta = { baseUrl: spec.baseUrl }
-    this.append(renderHeader(spec.data.info))
-    this.append(await renderPaths(spec.data.paths, meta))
-    // this.append(renderDebug(spec))
+
+    const container = fromString(`<div class="row">
+			<div class="oc-spec-menu col-sm-3 col-md-2"></div>
+			<div class="oc-spec-content col-sm-9 col-md-10"></div>
+		</div>`)
+
+    const menu = container.querySelector('.oc-spec-menu')
+    const content = container.querySelector('.oc-spec-content')
+    const menuItemList = fromString('<ul class="nav flex-column"></ul>')
+
+    const paths = spec.data.paths
+
+    if (paths) {
+      Object.keys(paths).forEach(pathName => {
+        const path = paths[pathName]
+        const menuItem = fromString(`<li>
+						<a href="#${path['x-link-rel']}">${path['x-link-rel']}</a>
+					</li>`)
+        menuItemList.appendChild(menuItem)
+      })
+      menu.appendChild(menuItemList)
+    }
+
+    content.append(renderHeader(spec.data.info))
+    content.append(await renderPaths(spec.data.paths, meta))
+    // content.append(renderDebug(spec))
+
+    this.appendChild(container)
   }
 }
 
