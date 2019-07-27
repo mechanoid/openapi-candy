@@ -34,18 +34,24 @@ const parameterSection = (type, parameters) => {
 
     return html`
       <oc-param-section>
-        <h5>${type} parameters</h5>
-        <table class="table">
-          <tbody></tbody>
-          <thead>
-            <th>parameter</th>
-            <th colspan="2"></th>
-            <th>example</th>
-          </thead>
-          <tbody>
-            ${paramRows}
-          </tbody>
-        </table>
+        <oc-foldable>
+          <header>
+            <h5>${type} parameters</h5>
+          </header>
+          <oc-foldable-container>
+            <table class="table">
+              <tbody></tbody>
+              <thead>
+                <th>parameter</th>
+                <th colspan="2"></th>
+                <th>example</th>
+              </thead>
+              <tbody>
+                ${paramRows}
+              </tbody>
+            </table>
+          </oc-foldable-container>
+        </oc-foldable>
       </oc-param-section>
     `
   }
@@ -129,4 +135,31 @@ export class OCPathOperation extends HTMLElement {
   }
 }
 
+class OCFoldable extends HTMLElement {
+  connectedCallback () {
+    this.header.addEventListener('click', e => {
+      this.classList.toggle('show')
+    })
+  }
+
+  get header () {
+    if (this._headline) {
+      return this._headline
+    }
+
+    this._headline = this.querySelector('header')
+    return this._headline
+  }
+
+  get foldable () {
+    if (this._foldable) {
+      return this._foldable
+    }
+
+    this._foldable = this.querySelector('oc-foldable-container')
+    return this._foldable
+  }
+}
+
+customElements.define('oc-foldable', OCFoldable)
 customElements.define('oc-path-operation', OCPathOperation)

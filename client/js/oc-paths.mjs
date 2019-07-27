@@ -1,3 +1,4 @@
+/* global slug */
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import { pathOperations } from '/assets/client/js/oc-path-operations.mjs'
@@ -18,21 +19,21 @@ const pathItem = (pathName, path, options = {}) => {
   const pathData = path.data
 
   return html`
-    <oc-path id="${path['x-link-rel']}">
-      <h4>${pathData['x-link-rel']} <strong>${pathName}</strong></h4>
-      ${additionalInformation(pathData, 'summary', { lead: true })}
-      ${additionalInformation(pathData, 'description')}
-      <hr />
-      ${pathOperations(path)}
+    <oc-path id="${slug(path.data['x-link-rel'])}">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4>${pathData['x-link-rel']} <strong>${pathName}</strong></h4>
+          ${additionalInformation(pathData, 'summary', { lead: true })}
+          ${additionalInformation(pathData, 'description')}
+          ${pathOperations(path)}
+        </div>
+      </div>
     </oc-path>
   `
 }
 
 const pathsContainer = (paths, options = {}) => html`
-  <oc-paths>
-    <div class="card mb-3">
-      <div class="card-body">${paths}</div>
-    </div>
+  <oc-paths>${paths}
   </oc-paths>
 `
 
