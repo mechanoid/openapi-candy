@@ -1,3 +1,5 @@
+/* global customElements, HTMLElement */
+
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 import { until } from '/assets/vendor/lit-html/directives/until.js'
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
@@ -5,9 +7,7 @@ import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 const badge = (param, text, options = {}) => {
   const classes = options.classes ? options.classes : ''
   return param
-    ? html`
-        <span class="badge badge-secondary ${classes}">${text}</span>
-      `
+    ? html`<span class="badge badge-secondary ${classes}">${text}</span>`
     : ''
 }
 
@@ -22,19 +22,11 @@ const parameterSection = (type, parameters) => {
           <td><span class="oc-param-name">${param.name}</span></td>
           <td>${param.description}</td>
           <td>
-            ${badge(param.required, 'required', {
-    classes: 'badge-primary'
-  })}
-            ${badge(param.deprecated, 'deprecated', {
-    classes: 'badge-warning'
-  })}
+            ${badge(param.required, 'required', { classes: 'badge-primary' })}
+            ${badge(param.deprecated, 'deprecated', { classes: 'badge-warning' })}
           </td>
           <td>
-            ${param.example
-    ? html`
-                  <pre class="oc-param-example">${param.example}</pre>
-                `
-    : ''}
+            ${param.example ? html`<pre class="oc-param-example">${param.example}</pre>` : ''}
           </td>
         </tr>
       `
@@ -64,11 +56,9 @@ const parameterSection = (type, parameters) => {
 const optionalText = (operation, textProperty, lead = false) => {
   // TODO: support commonmark
   if (operation[textProperty]) {
-    return html`
-      <p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">
+    return html`<p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">
         ${operation[textProperty]}
-      </p>
-    `
+      </p>`
   }
   return ''
 }
@@ -78,13 +68,11 @@ const externalDocs = operation => {
   const extDocs = operation.externalDocs
 
   if (extDocs) {
-    return html`
-      <div class="oc-callout oc-callout-info">
+    return html`<div class="oc-callout oc-callout-info">
         <a href="${extDocs.url}" target="”_blank”" rel="”noopener" noreferrer”>
           ${extDocs.url}
         </a>
-      </div>
-    `
+      </div>`
   }
 
   return ''

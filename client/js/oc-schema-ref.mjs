@@ -1,3 +1,4 @@
+/* global fetch */
 const propertiesFromHash = rawHash => {
   const hash = rawHash.slice(1) // remove #
   return hash.split('/').filter(prop => !!prop)

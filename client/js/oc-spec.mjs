@@ -1,14 +1,10 @@
+/* global HTMLElement, customElements, fetch */
+
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
-import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
 
 import { renderPaths } from '/assets/client/js/oc-paths.mjs'
 import { until } from '/assets/vendor/lit-html/directives/until.js'
-
-const debugTemplate = spec =>
-  html`
-    <pre>${JSON.stringify(spec, false, 2)}</pre>
-  `
 
 const menuItems = paths =>
   Object.keys(paths).map(pathName => {
@@ -97,7 +93,6 @@ class OpenAPICandySpec extends HTMLElement {
     const meta = { baseUrl: spec.baseUrl }
 
     render(specContainer(spec, meta), this)
-    // render(debugTemplate(spec), this)
   }
 }
 

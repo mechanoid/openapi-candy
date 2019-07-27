@@ -1,3 +1,4 @@
+/* global HTMLElement, customElements, slug */
 import { OCPathOperation } from '/assets/client/js/oc-path-operation.mjs'
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
@@ -72,8 +73,7 @@ const operationsTabMenu = (linkRelID, operations) => {
     <ul
       class="tab-menu nav nav-pills mb-3"
       role="tablist"
-      id="${linkRelID}-tab-menu"
-    >
+      id="${linkRelID}-tab-menu">
       ${tabs}
     </ul>
   `
@@ -93,9 +93,7 @@ const operationsTabContent = (linkRelID, path, operations) => {
     )
   })
 
-  return html`
-    <div class="tab-content" id="${linkRelID}-tab-content">${tabs}</div>
-  `
+  return html`<div class="tab-content" id="${linkRelID}-tab-content">${tabs}</div>`
 }
 
 class OCPathOperations extends HTMLElement {

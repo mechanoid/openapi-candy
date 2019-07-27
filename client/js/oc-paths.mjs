@@ -1,19 +1,13 @@
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import { until } from '/assets/vendor/lit-html/directives/until.js'
 import { pathOperations } from '/assets/client/js/oc-path-operations.mjs'
-// import { pathOperations } from './oc-path-operations-templates.mjs'
 
 const additionalInformation = (path, infoType, options = {}) => {
   const info = path[infoType]
 
   if (info) {
     return html`
-      <p
-        class="additional-information
-				${infoType}
-				${options.lead ? 'lead' : ''}"
-      >
+      <p class="additional-information ${infoType} ${options.lead ? 'lead' : ''}">
         ${info}
       </p>
     `
