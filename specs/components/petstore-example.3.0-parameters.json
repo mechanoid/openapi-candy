@@ -12,7 +12,7 @@
     },
     {
       "name": "someParam",
-      "in": "path",
+      "in": "query",
       "description": "Some param to show more rows",
       "schema": {
         "type": "string"
