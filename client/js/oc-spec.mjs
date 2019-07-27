@@ -1,4 +1,4 @@
-/* global HTMLElement, customElements, fetch */
+/* global HTMLElement, customElements, fetch, slug */
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
@@ -12,7 +12,7 @@ const menuItems = paths =>
 
     return html`
       <li>
-        <a href="#${path['x-link-rel']}">${path['x-link-rel']}</a>
+        <a class="main-nav-link" href="#${path['x-link-rel']}">${path['x-link-rel']}</a>
       </li>
     `
   })
@@ -30,9 +30,7 @@ const specHeader = info => html`
   <header>
     <h2>${info.title} (${info.version})</h2>
     ${info.description
-    ? html`
-          <p>${info.description}</p>
-        `
+    ? html`<p>${info.description}</p>`
     : ''}
   </header>
 `

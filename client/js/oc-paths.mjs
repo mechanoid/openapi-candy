@@ -19,10 +19,14 @@ const pathItem = (pathName, path, options = {}) => {
   const pathData = path.data
 
   return html`
-    <oc-path id="${slug(path.data['x-link-rel'])}">
+    <oc-path id="${path.data['x-link-rel']}">
       <div class="card mb-3">
         <div class="card-body">
-          <h4>${pathData['x-link-rel']} <strong>${pathName}</strong></h4>
+          <h4>
+            <a class="oc-anchor-copy-help" href="#${pathData['x-link-rel']}">
+              ${pathData['x-link-rel']} <strong>${pathName}</strong>
+            </a>
+          </h4>
           ${additionalInformation(pathData, 'summary', { lead: true })}
           ${additionalInformation(pathData, 'description')}
           ${pathOperations(path)}
