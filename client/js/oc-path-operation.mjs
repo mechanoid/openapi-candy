@@ -1,32 +1,24 @@
-import { fromString } from '/assets/client/js/oc-minitemp.mjs'
+import { render, html } from '/assets/vendor/lit-html/lit-html.js'
+import { until } from '/assets/vendor/lit-html/directives/until.js'
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 
 const badge = (param, text, options = {}) => {
   const classes = options.classes ? options.classes : ''
   return param
-    ? `<span class="badge badge-secondary ${classes}">${text}</span>`
+    ? html`
+        <span class="badge badge-secondary ${classes}">${text}</span>
+      `
     : ''
 }
 
 // TODO: handle allowEmpty for params
-const renderParameterSection = (type, parameters) => {
+const parameterSection = (type, parameters) => {
   if (parameters.length > 0) {
-    const paramSection = fromString(`<oc-param-section>
-      <h5>${type} parameters</h5>
-      <table class="table"><tbody></tbody>
-	      <thead>
-	        <th>parameter</th>
-	        <th colspan="2"></th>
-	        <th>example</th>
-	      </thead>
-			</table>
-    </oc-param-section>`)
-    const table = paramSection.querySelector('table')
-    const body = table.querySelector('tbody')
+    // TODO: add commonmark rendering for description
 
-    parameters.forEach(param => {
-      // TODO: add commonmark rendering for description
-      const row = fromString(`<tr>
+    const paramRows = parameters.map(
+      param => html`
+        <tr>
           <td><span class="oc-param-name">${param.name}</span></td>
           <td>${param.description}</td>
           <td>
@@ -37,21 +29,89 @@ const renderParameterSection = (type, parameters) => {
     classes: 'badge-warning'
   })}
           </td>
-          <td>${
-  param.example
-    ? `<pre class="oc-param-example">${param.example}</pre>`
-    : ''
-}</td>
-        </tr>`)
+          <td>
+            ${param.example
+    ? html`
+                  <pre class="oc-param-example">${param.example}</pre>
+                `
+    : ''}
+          </td>
+        </tr>
+      `
+    )
 
-      body.appendChild(row)
+    return html`
+      <oc-param-section>
+        <h5>${type} parameters</h5>
+        <table class="table">
+          <tbody></tbody>
+          <thead>
+            <th>parameter</th>
+            <th colspan="2"></th>
+            <th>example</th>
+          </thead>
+          <tbody>
+            ${paramRows}
+          </tbody>
+        </table>
+      </oc-param-section>
+    `
+  }
+
+  return ''
+}
+
+const optionalText = (operation, textProperty, lead = false) => {
+  // TODO: support commonmark
+  if (operation[textProperty]) {
+    return html`
+      <p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">
+        ${operation[textProperty]}
+      </p>
+    `
+  }
+  return ''
+}
+
+const externalDocs = operation => {
+  // TODO: support commonmark for text
+  const extDocs = operation.externalDocs
+
+  if (extDocs) {
+    return html`
+      <div class="oc-callout oc-callout-info">
+        <a href="${extDocs.url}" target="”_blank”" rel="”noopener" noreferrer”>
+          ${extDocs.url}
+        </a>
+      </div>
+    `
+  }
+
+  return ''
+}
+
+const parameters = async (operation, options = {}) => {
+  const parameterConfig = operation.parameters
+
+  if (parameterConfig) {
+    const parameters = await resolveObject(parameterConfig, options)
+
+    const paramTypes = ['header', 'path', 'query', 'cookie']
+
+    const paramTables = paramTypes.map(type => {
+      const params = parameters.data.filter(p => p.in === type)
+
+      return parameterSection(type, params)
     })
 
-    table.appendChild(body)
-
-    return paramSection
+    return html`
+      <oc-parameters>${paramTables}</oc-parameters>
+    `
   }
+
+  return ''
 }
+
 export class OCPathOperation extends HTMLElement {
   constructor (pathItem, verb, operation) {
     super()
@@ -61,77 +121,23 @@ export class OCPathOperation extends HTMLElement {
     this.operation = operation
   }
 
-  async connectedCallback () {
-    this.renderSummary()
-    this.renderDescription()
-    this.renderExternalDocs()
-    await this.renderParameters()
-  }
-
-  async renderParameters () {
-    const parameterConfig = this.operation.parameters
-    const result = fromString('<oc-parameters>')
-
-    if (parameterConfig) {
-      const parameters = await resolveObject(parameterConfig, {
-        baseUrl: this.baseUrl
-      })
-
-      const paramTypes = ['header', 'path', 'query', 'cookie']
-
-      paramTypes.forEach(type => {
-        const params = parameters.data.filter(p => p.in === type)
-
-        const table = renderParameterSection(type, params)
-        if (table) {
-          result.appendChild(table)
-        }
-      })
-
-      this.appendChild(result)
-    }
-  }
-
-  renderSummary () {
-    this.renderOptionalText('summary', true)
-  }
-
-  renderDescription () {
-    this.renderOptionalText('description')
-  }
-
-  renderOptionalText (textProperty, lead = false) {
-    // TODO: support commonmark
-    if (this.operation[textProperty]) {
-      const text = fromString(
-        `<p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">${
-          this.operation[textProperty]
-        }</p>`
-      )
-      this.appendChild(text)
-    }
-  }
-
-  renderExternalDocs () {
-    // TODO: support commonmark for text
-    const externalDocsItem = this.operation.externalDocs
-    const externalDocs = fromString(
-      `<div class="oc-callout oc-callout-info"></div>`
+  async render () {
+    return render(
+      html`
+        ${optionalText(this.operation, 'summary', true)}
+        ${optionalText(this.operation, 'description')}
+        ${externalDocs(this.operation)}
+        ${until(
+    parameters(this.operation, { baseUrl: this.baseUrl }),
+    'loading parameters'
+  )}
+      `,
+      this
     )
+  }
 
-    if (externalDocsItem) {
-      if (externalDocsItem.description) {
-        const description = fromString(`<p>${externalDocsItem.description}</p>`)
-        externalDocs.appendChild(description)
-      }
-
-      const link = fromString(
-        `<a href="${externalDocsItem.url}" target=”_blank” rel=”noopener noreferrer”>${externalDocsItem.url}<\a>`
-      )
-      externalDocs.appendChild(link)
-
-      this.appendChild(externalDocs)
-    }
+  async connectedCallback () {
+    await this.render()
   }
 }
 

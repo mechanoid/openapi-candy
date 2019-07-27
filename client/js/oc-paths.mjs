@@ -1,69 +1,59 @@
-import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
-import { renderPathOperations } from '/assets/client/js/oc-path-operations.mjs'
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
+import { html } from '/assets/vendor/lit-html/lit-html.js'
+import { until } from '/assets/vendor/lit-html/directives/until.js'
+import { pathOperations } from '/assets/client/js/oc-path-operations.mjs'
+// import { pathOperations } from './oc-path-operations-templates.mjs'
 
-const appendAdditionalInformation = (
-  infoType,
-  pathItem,
-  renderer,
-  options = {}
-) => {
-  const info = pathItem[infoType]
+const additionalInformation = (path, infoType, options = {}) => {
+  const info = path[infoType]
 
   if (info) {
-    const rendered = fromString(
-      `<p class="additional-information ${infoType}">${info}</p>`
-    )
-
-    if (options.lead) {
-      rendered.classList.add('lead')
-    }
-
-    renderer.appendChild(rendered)
+    return html`
+      <p
+        class="additional-information
+				${infoType}
+				${options.lead ? 'lead' : ''}"
+      >
+        ${info}
+      </p>
+    `
   }
 }
 
-export const renderPathItem = (pathItemName, pathItem) => {
-  const pathItemData = pathItem.data
-  const result = fromString(`<oc-path id="${pathItemData['x-link-rel']}">
-    <h4>${pathItemData['x-link-rel']} <strong>${pathItemName}</strong></h4>
-  </oc-path>`)
+const pathItem = (pathName, path, options = {}) => {
+  const pathData = path.data
 
-  appendAdditionalInformation('summary', pathItemData, result, { lead: true })
-  appendAdditionalInformation('description', pathItemData, result)
-
-  // TODO: render path generic parameters (https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#fixed-fields-7)
-  const operations = renderPathOperations(pathItem)
-  result.appendChild(operations)
-
-  return result
+  return html`
+    <oc-path id="${path['x-link-rel']}">
+      <h4>${pathData['x-link-rel']} <strong>${pathName}</strong></h4>
+      ${additionalInformation(pathData, 'summary', { lead: true })}
+      ${additionalInformation(pathData, 'description')}
+      <hr />
+      ${pathOperations(path)}
+    </oc-path>
+  `
 }
 
-export const renderPaths = async (paths, options = {}) => {
-  const pathItemNames = Object.keys(paths)
+const pathsContainer = (paths, options = {}) => html`
+  <oc-paths>
+    <div class="card mb-3">
+      <div class="card-body">${paths}</div>
+    </div>
+  </oc-paths>
+`
 
-  const renderedPathsFutures = pathItemNames.map(async pathItemName => {
-    const pathItem = paths[pathItemName]
+export const renderPaths = async (pathsConfigs, options = {}) => {
+  const pathConfigNames = Object.keys(pathsConfigs)
 
-    const card = fromString(`<div class="card mb-3"></div>`)
-    const cardBody = fromString(`<div class="card-body"></div>`)
+  const pathFutures = pathConfigNames.map(pathItemName => {
+    const pathConfig = pathsConfigs[pathItemName]
 
-    const resolvedPathItem = await resolveObject(pathItem, {
+    return resolveObject(pathConfig, {
       baseUrl: options.baseUrl
-    })
-
-    const item = renderPathItem(pathItemName, resolvedPathItem)
-
-    card.appendChild(cardBody)
-    cardBody.appendChild(item)
-
-    return card
+    }).then(path => pathItem(pathItemName, path, path.meta))
   })
 
-  const result = fromString(`<oc-paths></oc-paths>`)
+  const paths = await Promise.all(pathFutures)
 
-  const renderedPaths = await Promise.all(renderedPathsFutures)
-  injectElements(result, renderedPaths)
-
-  return result
+  return pathsContainer(paths, options)
 }

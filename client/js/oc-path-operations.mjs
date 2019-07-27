@@ -1,6 +1,5 @@
-import { ulid } from '/assets/vendor/ulid/index.esm.js'
-import { fromString, injectElements } from '/assets/client/js/oc-minitemp.mjs'
 import { OCPathOperation } from '/assets/client/js/oc-path-operation.mjs'
+import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
 const SUPPORTED_HTTP_VERBS = [
   'get',
@@ -15,53 +14,78 @@ const SUPPORTED_HTTP_VERBS = [
 
 const hasKey = (obj, key) => Object.keys(obj).indexOf(key) >= 0
 
-const pathItemOperations = pathItem =>
-  SUPPORTED_HTTP_VERBS.reduce((ops, verb) => {
-    if (hasKey(pathItem, verb)) {
-      ops[verb] = pathItem[verb]
+const operationsForSupportedVerbs = path => {
+  return SUPPORTED_HTTP_VERBS.reduce((ops, verb) => {
+    if (hasKey(path, verb)) {
+      ops[verb] = path[verb]
     }
     return ops
   }, {})
-
-const renderOperationMenuTab = (operationId, verb, operation, firstItem) => {
-  const activeClass = firstItem ? 'active' : ''
-  const tab = fromString('<li class="nav-item"></li>')
-  const link = fromString(
-    `<a class="nav-link ${activeClass}" id="${operationId}-tab" data-toggle="pill" href="#${operationId}" role="tab" aria-controls="${operationId}" aria-selected="${!!firstItem}">
-      ${verb.toUpperCase()}
-    </a>`
-  )
-
-  tab.appendChild(link)
-
-  return tab
 }
 
-const renderOperationContentTab = (
-  pathItem,
-  operationId,
-  verb,
-  operation,
-  firstItem
-) => {
+const operationMenuTab = (operationId, verb, operation, firstItem) => {
+  const activeClass = firstItem ? 'active' : ''
+
+  return html`
+    <li class="nav-item ${activeClass}">
+      <a
+        class="nav-link ${activeClass}"
+        id="${operationId}-tab"
+        data-toggle="pill"
+        href="#${operationId}"
+        role="tab"
+        aria-controls="${operationId}"
+        aria-selected="${!!firstItem}"
+      >
+        ${verb.toUpperCase()}
+      </a>
+    </li>
+  `
+}
+
+const operationContentTab = (path, operationId, verb, operation, firstItem) => {
   const activeClass = firstItem ? 'show active' : ''
 
-  const tab = fromString(
-    `<div class="tab-pane fade ${activeClass}" id="${operationId}" role="tabpanel" aria-labelledby="${operationId}-tab"></div>`
-  )
-  const content = new OCPathOperation(pathItem, verb, operation)
+  const content = new OCPathOperation(path, verb, operation)
 
-  tab.appendChild(content)
-
-  return tab
+  return html`
+    <div
+      class="tab-pane fade ${activeClass}"
+      id="${operationId}"
+      role="tabpanel"
+      aria-labelledby="${operationId}-tab"
+    >
+      ${content}
+    </div>
+  `
 }
 
-const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
+const operationsTabMenu = (linkRelID, operations) => {
   const tabs = Object.keys(operations).map((verb, index) => {
     const operation = operations[verb]
     const operationId = operation.operationId || `${linkRelID}-${verb}`
 
-    return renderOperationMenuTab(
+    return operationMenuTab(operationId, verb, operations[verb], index === 0)
+  })
+
+  return html`
+    <ul
+      class="tab-menu nav nav-pills mb-3"
+      role="tablist"
+      id="${linkRelID}-tab-menu"
+    >
+      ${tabs}
+    </ul>
+  `
+}
+//
+const operationsTabContent = (linkRelID, path, operations) => {
+  const tabs = Object.keys(operations).map((verb, index) => {
+    const operation = operations[verb]
+    const operationId = operation.operationId || `${linkRelID}-${verb}`
+
+    return operationContentTab(
+      path,
       operationId,
       verb,
       operations[verb],
@@ -69,50 +93,31 @@ const renderOperationsTabMenu = (linkRelID, pathItem, operations) => {
     )
   })
 
-  const tabMenuList = fromString(
-    `<ul class="nav nav-pills mb-3" role="tablist" id="${linkRelID}-tab-menu"></ul>`
-  )
-
-  injectElements(tabMenuList, tabs)
-
-  return tabMenuList
-}
-
-const renderOperationsTabContent = (linkRelID, pathItem, operations) => {
-  const tabs = Object.keys(operations).map((verb, index) => {
-    const operation = operations[verb]
-    const operationId = operation.operationId || `${linkRelID}-${verb}`
-
-    return renderOperationContentTab(
-      pathItem,
-      operationId,
-      verb,
-      operations[verb],
-      index === 0
-    )
-  })
-
-  const tabList = fromString(
-    `<div class="tab-content" id="${linkRelID}-tab-content"></div>`
-  )
-
-  injectElements(tabList, tabs)
-
-  return tabList
+  return html`
+    <div class="tab-content" id="${linkRelID}-tab-content">${tabs}</div>
+  `
 }
 
 class OCPathOperations extends HTMLElement {
-  constructor (linkRelID, pathItemRef, operations) {
+  constructor (linkRelID, path, operations) {
     super()
     this.operations = operations
     this.linkRelID = linkRelID
-    this.pathItemRef = pathItemRef
+    this.path = path
+  }
+
+  render () {
+    return render(
+      html`
+        ${operationsTabMenu(this.linkRelID, this.operations)}
+        ${operationsTabContent(this.linkRelID, this.path, this.operations)}
+      `,
+      this
+    )
   }
 
   connectedCallback () {
-    this.renderTabMenu()
-    this.renderTabContent()
-
+    this.render()
     this.tabLinks.forEach(link => {
       link.addEventListener('click', e => {
         const href = link.getAttribute('href')
@@ -149,6 +154,24 @@ class OCPathOperations extends HTMLElement {
     return []
   }
 
+  get tabMenu () {
+    if (this._tabMenu) {
+      return this._tabMenu
+    }
+
+    this._tabMenu = this.querySelector('.tab-menu')
+    return this._tabMenu
+  }
+
+  get tabContent () {
+    if (this._tabContent) {
+      return this._tabContent
+    }
+
+    this._tabContent = this.querySelector('.tab-content')
+    return this._tabContent
+  }
+
   get tabLinks () {
     if (this._tabLinks) {
       return this._tabLinks
@@ -162,35 +185,16 @@ class OCPathOperations extends HTMLElement {
 
     return []
   }
-
-  renderTabMenu () {
-    this.tabMenu = renderOperationsTabMenu(
-      this.linkRelID,
-      this.pathItemRef,
-      this.operations
-    )
-
-    this.appendChild(this.tabMenu)
-  }
-
-  renderTabContent () {
-    this.tabContent = renderOperationsTabContent(
-      this.linkRelID,
-      this.pathItemRef,
-      this.operations
-    )
-
-    this.appendChild(this.tabContent)
-  }
 }
 
 customElements.define('oc-path-operations', OCPathOperations)
 
-export const renderPathOperations = pathItem => {
-  const linkRelID = ulid(pathItem['x-link-rel'])
-  const operations = pathItemOperations(pathItem.data)
+export const pathOperations = path => {
+  const linkRelID = slug(path.data['x-link-rel'])
 
-  const pathOperations = new OCPathOperations(linkRelID, pathItem, operations)
+  const operations = operationsForSupportedVerbs(path.data)
+
+  const pathOperations = new OCPathOperations(linkRelID, path, operations)
 
   return pathOperations
 }

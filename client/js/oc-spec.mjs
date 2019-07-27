@@ -1,9 +1,57 @@
-import { render } from '/assets/vendor/lit-html/lit-html.js'
-import { debugTemplate, specContainer } from './templates/oc-spec-templates.mjs'
-
-import { renderHeader } from '/assets/client/js/oc-header.mjs'
-import { renderPaths } from '/assets/client/js/oc-paths.mjs'
+import { render, html } from '/assets/vendor/lit-html/lit-html.js'
+import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
+
+import { renderPaths } from '/assets/client/js/oc-paths.mjs'
+import { until } from '/assets/vendor/lit-html/directives/until.js'
+
+const debugTemplate = spec =>
+  html`
+    <pre>${JSON.stringify(spec, false, 2)}</pre>
+  `
+
+const menuItems = paths =>
+  Object.keys(paths).map(pathName => {
+    const path = paths[pathName]
+
+    return html`
+      <li>
+        <a href="#${path['x-link-rel']}">${path['x-link-rel']}</a>
+      </li>
+    `
+  })
+
+const menu = spec => html`
+  <ul class="nav flex-column">
+    ${menuItems(spec.data.paths)}
+  </ul>
+`
+
+// TODO: render `termsOfService` if available
+// TODO: render `contact` if available
+// TODO: render `license` if available
+const specHeader = info => html`
+  <header>
+    <h2>${info.title} (${info.version})</h2>
+    ${info.description
+    ? html`
+          <p>${info.description}</p>
+        `
+    : ''}
+  </header>
+`
+
+const content = (spec, meta) => html`
+  ${specHeader(spec.data.info)}
+  ${until(renderPaths(spec.data.paths, meta), 'resolving pathes')}
+`
+
+const specContainer = (spec, meta) => html`
+  <div class="row">
+    <div class="oc-spec-menu col-sm-3 col-md-2">${menu(spec)}</div>
+    <div class="oc-spec-content col-sm-9 col-md-10">${content(spec, meta)}</div>
+  </div>
+`
 
 const loadSpec = async specPath =>
   fetch(specPath)
@@ -48,29 +96,8 @@ class OpenAPICandySpec extends HTMLElement {
   async render (spec) {
     const meta = { baseUrl: spec.baseUrl }
 
-    // const menu = container.querySelector('.oc-spec-menu')
-    // const content = container.querySelector('.oc-spec-content')
-    // const menuItemList = fromString('<ul class="nav flex-column"></ul>')
-    //
-    // const paths = spec.data.paths
-    //
-    // if (paths) {
-    //   Object.keys(paths).forEach(pathName => {
-    //     const path = paths[pathName]
-    //     const menuItem = fromString(`<li>
-    // 				<a href="#${path['x-link-rel']}">${path['x-link-rel']}</a>
-    // 			</li>`)
-    //     menuItemList.appendChild(menuItem)
-    //   })
-    //   menu.appendChild(menuItemList)
-    // }
-
-    // content.append(renderHeader(spec.data.info))
-    // content.append(await renderPaths(spec.data.paths, meta))
-
+    render(specContainer(spec, meta), this)
     // render(debugTemplate(spec), this)
-
-    // this.appendChild(container)
   }
 }
 
