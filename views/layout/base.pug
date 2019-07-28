@@ -33,6 +33,6 @@ html(lang="en")
           const scroll = new SmoothScroll();
 
           const elem = document.querySelector(`[id="${hashName}"]`)
-          scroll.animateScroll(elem)
+          scroll.animateScroll(elem, null, { offset: 150 })
         }
       }, 500)
