@@ -143,3 +143,15 @@ oc-foldable.show oc-foldable-container {
   background-color: #fff;
   color: #F07A9F;
 }
+
+@media (min-width: 600px) {
+  .oc-main-menu {
+    position: fixed;
+  }
+}
+
+@media (max-width: 600px) {
+  .oc-main-menu {
+    display: none;
+  }
+}

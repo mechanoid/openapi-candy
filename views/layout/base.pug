@@ -15,11 +15,24 @@ html(lang="en")
     script(src=assets.vendor('uri-template/index.js'))
     script(src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0.0/dist/smooth-scroll.polyfills.min.js")
     script.
-      new SmoothScroll('a[href*="#"].main-nav-link', { offset: 50 });
-      new SmoothScroll('a[href*="#"].oc-anchor-copy-help', { offset: 50 });
+      /* new SmoothScroll('a[href*="#"].main-nav-link', { offset: 50 }); */
+      /* new SmoothScroll('a[href*="#"].oc-anchor-copy-help', { offset: 50 }); */
       new SmoothScroll('a[href*="#"].nav-link', { offset: 150 });
 
     script(type="module" src=assets.client('js/oc-spec.mjs'))
   body
     .container-fluid
       block content
+
+    script.
+      setTimeout(() => {
+        const hash = location.hash
+
+        if (hash) {
+          const hashName = hash.slice(1)
+          const scroll = new SmoothScroll();
+
+          const elem = document.querySelector(`[id="${hashName}"]`)
+          scroll.animateScroll(elem)
+        }
+      }, 500)

@@ -21,7 +21,7 @@ const menuItems = (paths, options = {}) =>
   })
 
 const menu = (spec, options = {}) => html`
-  <ul class="nav flex-column">
+  <ul class="oc-main-menu nav flex-column  col-sm-3 col-md-2">
     ${menuItems(spec.data.paths, options)}
   </ul>
 `
@@ -70,10 +70,6 @@ class OpenAPICandySpec extends HTMLElement {
       const spec = await this.spec()
 
       await this.render(spec)
-
-      window.addEventListener('hashchange', e => {
-        console.log('location changed')
-      })
     } catch (e) {
       console.log(e)
     }
