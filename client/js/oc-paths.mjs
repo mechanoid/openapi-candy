@@ -1,7 +1,8 @@
-/* global slug */
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
+
 import { pathOperations } from '/assets/client/js/oc-path-operations.mjs'
+import { apiResourceLink } from '/assets/client/js/uri-templates.mjs'
 
 const additionalInformation = (path, infoType, options = {}) => {
   const info = path[infoType]
@@ -23,7 +24,7 @@ const pathItem = (pathName, path, options = {}) => {
       <div class="card mb-3">
         <div class="card-body">
           <h4>
-            <a class="oc-anchor-copy-help" href="#${pathData['x-link-rel']}">
+            <a class="oc-anchor-copy-help" href="${apiResourceLink({ spec: options.specPath, linkRel: pathData['x-link-rel'] })}">
               ${pathData['x-link-rel']} <strong>${pathName}</strong>
             </a>
           </h4>
@@ -49,7 +50,9 @@ export const renderPaths = async (pathsConfigs, options = {}) => {
 
     return resolveObject(pathConfig, {
       baseUrl: options.baseUrl
-    }).then(path => pathItem(pathItemName, path, path.meta))
+    }).then(path => {
+      return pathItem(pathItemName, path, Object.assign({}, path.meta, { specPath: options.specPath }))
+    })
   })
 
   const paths = await Promise.all(pathFutures)

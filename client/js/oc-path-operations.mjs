@@ -1,4 +1,4 @@
-/* global HTMLElement, customElements, slug */
+/* global HTMLElement, customElements */
 import { OCPathOperation } from '/assets/client/js/oc-path-operation.mjs'
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 

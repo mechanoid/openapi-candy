@@ -8,10 +8,21 @@
 }
 
 body {
-  color: rgb(10, 20, 10);
-  background-color: #E2E5FD;
+  color: #fff;
+  background-color: #F07A9F;
+  background: linear-gradient(90deg, rgba(240,122,159,1) 0%, rgba(237,155,181,1) 100%);
   padding: 2rem 1rem;
   padding-bottom: 100rem;
+}
+
+h1, h2 {
+  color: #fff;
+}
+
+.card {
+  color: rgb(10, 20, 10);
+  border-radius: 2px !important;
+  padding: 1rem;
 }
 
 h5 {
@@ -113,4 +124,22 @@ oc-foldable.show oc-foldable-container {
 .oc-anchor-copy-help:hover:before {
   text-shadow: 0px 0px 0 #233dd2;
   font-size: .875em;
+}
+
+.oc-spec-menu li {
+  margin-bottom: .5rem;
+}
+.oc-spec-menu a {
+  display: block;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  padding: .5rem;
+  border-radius: 2px;
+
+}
+
+.oc-spec-menu a.active, .oc-spec-menu a:hover {
+  background-color: #fff;
+  color: #F07A9F;
 }
