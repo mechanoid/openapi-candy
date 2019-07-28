@@ -155,3 +155,8 @@ oc-foldable.show oc-foldable-container {
     display: none;
   }
 }
+
+oc-request-body .lead {
+  font-weight: normal;
+  /* font-style: italic; */
+}
