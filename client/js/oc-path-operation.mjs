@@ -3,6 +3,7 @@
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 import { until } from '/assets/vendor/lit-html/directives/until.js'
 import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
+import '/assets/client/js/oc-foldable.mjs'
 
 const badge = (param, text, options = {}) => {
   const classes = options.classes ? options.classes : ''
@@ -135,31 +136,4 @@ export class OCPathOperation extends HTMLElement {
   }
 }
 
-class OCFoldable extends HTMLElement {
-  connectedCallback () {
-    this.header.addEventListener('click', e => {
-      this.classList.toggle('show')
-    })
-  }
-
-  get header () {
-    if (this._headline) {
-      return this._headline
-    }
-
-    this._headline = this.querySelector('header')
-    return this._headline
-  }
-
-  get foldable () {
-    if (this._foldable) {
-      return this._foldable
-    }
-
-    this._foldable = this.querySelector('oc-foldable-container')
-    return this._foldable
-  }
-}
-
-customElements.define('oc-foldable', OCFoldable)
 customElements.define('oc-path-operation', OCPathOperation)
