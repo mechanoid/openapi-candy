@@ -137,7 +137,7 @@ oc-foldable.show oc-foldable-container {
   display: block;
   color: #fff;
   font-weight: bold;
-  text-align: center;
+  /* text-align: center; */
   padding: .5rem;
   border-radius: 2px;
 
@@ -148,10 +148,21 @@ oc-foldable.show oc-foldable-container {
   color: #F07A9F;
 }
 
+.oc-main-nav-link-summary {
+  display: none;
+}
+
 @media (min-width: 600px) {
   .oc-main-menu {
     top: 6rem;
     position: fixed;
+  }
+
+  .oc-main-nav-link-summary {
+    display: block;
+    font-weight: normal;
+    text-align: left;
+    font-size: .875em;
   }
 }
 

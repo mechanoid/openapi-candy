@@ -14,7 +14,10 @@ const menuItems = (paths, options = {}) =>
       <li>
         <a class="main-nav-link ${options.currentLinkRel === path['x-link-rel'] ? 'active' : ''}" href="
           ${apiResourceLink({ spec: options.specPath, linkRel: path['x-link-rel'] })}
-        ">${path['x-link-rel']}</a>
+        ">
+          ${path.summary || path['x-link-rel']}
+          ${path.summary && path['x-link-rel'] ? html`<span class="oc-main-nav-link-summary">${path['x-link-rel']}</span>` : ''}
+        </a>
       </li>
     `
   })
