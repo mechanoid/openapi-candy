@@ -62,9 +62,6 @@ export const parameters = (operation, options = {}) => {
     const paramTypes = ['header', 'path', 'query', 'cookie']
 
     const paramTables = paramTypes.map(type => {
-      console.log('')
-      console.log('')
-      console.log('parameters:', JSON.stringify(parameters))
       const params = parameters.filter(p => p.in === type)
 
       return parameterSection(type, params)

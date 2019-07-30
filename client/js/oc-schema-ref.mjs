@@ -55,7 +55,7 @@ export const resolveObjectRefRef = async (item, options = {}) => {
       return resolveObjectRefFromHash(res, hash)
     })
     .then(res => {
-      if (isObject(item)) {
+      if (isObject(res) && isObject(item)) {
         return Object.assign({}, res, item) // for keys in main spec and in referenced item, the result is undefined. We merge!
       }
       return res

@@ -78,6 +78,7 @@ class OpenAPICandySpec extends HTMLElement {
   render (spec) {
     const meta = { specPath: this.specPath, currentLinkRel: this.currentLinkRel }
 
+    // console.log(JSON.stringify(spec, null, 2))
     render(specContainer(spec, meta), this)
   }
 }
