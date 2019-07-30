@@ -1,3 +1,4 @@
+/* global customElements, HTMLElement */
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
@@ -16,11 +17,18 @@ const propertyObject = schema => {
 
 const contentTypeMenuItem = (contentType, first) => html`
   <li class="nav-item active">
-    <a href="" class="nav-link oc-content-type-switch ${first ? 'active' : ''}" target="${contentType}">${contentType}</a>
+    <a href="" class="nav-link oc-content-type-switch ${first ? 'active' : ''}" data-target="${contentType}">${contentType}</a>
   </li>`
 
-const contentTypeBody = (contentType, bodyFormat, first) => html`<div class="content-type-body ${first ? 'active' : ''}">
+const contentTypeBody = (contentType, bodyFormat, first) => html`<div data-tab="${contentType}" class="content-type-body ${first ? 'active' : ''}">
+  <h6>Properties:</h6>
   <pre><code class="JSON">${JSON.stringify(propertyObject(bodyFormat.schema), null, 2)}</code></pre>
+
+  <h6>Example${bodyFormat.examples ? 's' : ''}:</h6>
+  <pre><code class="JSON">${JSON.stringify(bodyFormat.example || bodyFormat.examples, null, 2)}</code></pre>
+
+  <h6>Schema:</h6>
+  <pre><code class="JSON">${JSON.stringify(bodyFormat.schema, null, 2)}</code></pre>
 </div>`
 
 const requestBodyContent = content => {
@@ -60,3 +68,27 @@ export const requestBody = (operation, options = {}) => {
 
   return ''
 }
+
+class RequestBodyContent extends HTMLElement {
+  connectedCallback () {
+    this.tabs = this.querySelectorAll('[data-target]')
+    this.tabContentContainers = this.querySelectorAll('[data-tab]')
+
+    this.tabs.forEach(tab => {
+      tab.addEventListener('click', e => {
+        e.preventDefault()
+        this.tabs.forEach(tab => tab.classList.remove('active'))
+        tab.classList.add('active')
+
+        this.tabContentContainers.forEach(tabContent => tabContent.classList.remove('active'))
+        const targetDescriptor = tab.getAttribute('data-target')
+        const targetContent = this.querySelector(`[data-tab="${targetDescriptor}"]`)
+        if (targetContent) {
+          targetContent.classList.add('active')
+        }
+      })
+    })
+  }
+}
+
+customElements.define('oc-request-body-content', RequestBodyContent)
