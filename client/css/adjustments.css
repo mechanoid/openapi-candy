@@ -1,5 +1,5 @@
 :root {
-  --oc-border-radius-default: 1px;
+  --oc-border-radius-default: 2px;
 
   --oc-border-radius: var(
     --oc-border-radius-custom,
@@ -9,17 +9,35 @@
 
 body {
   color: #fff;
-  background-color: #F07A9F;
-  background: linear-gradient(90deg, rgba(240,122,159,1) 0%, rgba(237,155,181,1) 100%);
-  padding: 2rem 1rem;
-  padding-bottom: 100rem;
+  font-family: 'Lato', sans-serif;
+  background-color: rgb(61.0, 76.0, 121.0);
+  background: linear-gradient(70deg, rgb(61.0, 76.0, 121.0) 0%, rgb(114.375, 142.5, 226.875) 100%);
+  /* padding: 2rem 1rem; */
+
+}
+
+a:link, a:visited, a:hover, a:active {
+  color: #E95FB9;
+}
+
+.lead {
+  font-size: 1rem;
+}
+
+p {
+  font-size: .875rem;
 }
 
 h1, h2 {
-  color: #fff;
+  /* color: #fff; */
+}
+
+tbody {
+  font-size: .875rem;
 }
 
 .card {
+  border-color: transparent;
   color: rgb(10, 20, 10);
   border-radius: 2px !important;
   padding: 1rem;
@@ -34,10 +52,20 @@ h5 {
 }
 
 /* nav pills */
+.nav.nav-pills .nav-item {
+  margin-left: 1rem;
+}
 .nav.nav-pills a {
   border-radius: var(--oc-border-radius);
   padding-top: 0.3rem;
   padding-bottom: 0.3rem;
+  transition: 0.3s;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .nav-link:hover {
+  color: #fff;
+  background-color: #E95FB9;
 }
 
 /* cards */
@@ -118,16 +146,27 @@ oc-foldable.show oc-foldable-container {
 .oc-anchor-copy-help:before, .oc-anchor-copy-help:hover:before {
   content: '\1F517';
   position: absolute;
-  top: 5%;
-  left: -1rem;
+  top: 25%;
+  left: -1.5rem;
   color: transparent;
   /* text-shadow: 0px 0px 0 #ababab; */
 
 }
 
 .oc-anchor-copy-help:hover:before {
-  text-shadow: 0px 0px 0 #233dd2;
-  font-size: .875em;
+  text-shadow: 0px 0px 0 #E95FB9;
+  font-size: .75em;
+}
+
+.oc-spec-content {
+  padding: 2rem 3rem;
+  padding-bottom: 10rem;
+}
+
+.oc-spec-menu {
+  background-color: rgb(26.0, 31.0, 66.0);
+  background: linear-gradient(50deg, rgb(26.0, 31.0, 66.0) 0%, rgb(61.0, 69.0, 121.0) 100%);
+  color: #fff;
 }
 
 .oc-spec-menu li {
@@ -135,21 +174,44 @@ oc-foldable.show oc-foldable-container {
 }
 .oc-spec-menu a {
   display: block;
-  color: #fff;
+  color: #978CE9;
   font-weight: bold;
   /* text-align: center; */
   padding: .5rem;
   border-radius: 2px;
-
+  margin-right: 1rem;
+  transition: 0.3s;
 }
 
 .oc-spec-menu a.active, .oc-spec-menu a:hover {
-  background-color: #fff;
-  color: #F07A9F;
+  background-color: rgba(151.00000619888306, 140.00000685453415, 233.00000131130219, .5);
+
+  color: #fff;
+  text-decoration: none;
+}
+
+
+
+.oc-main-menu:before {
+  content: 'Openapi Candy';
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: -2.5rem;
+  color: #fff;
+  font-family: 'Leckerli One', cursive;
+  font-size: 1.3rem;
+  text-align: center;
+  padding-right: 3rem;
+  white-space: nowrap;
 }
 
 .oc-main-nav-link-summary {
   display: none;
+  font-weight: normal;
+  text-align: left;
+  font-size: .875em;
+  /* color: #978CE9; */
 }
 
 @media (min-width: 600px) {
@@ -160,13 +222,10 @@ oc-foldable.show oc-foldable-container {
 
   .oc-main-nav-link-summary {
     display: block;
-    font-weight: normal;
-    text-align: left;
-    font-size: .875em;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .oc-main-menu {
     display: none;
   }
@@ -175,4 +234,9 @@ oc-foldable.show oc-foldable-container {
 oc-request-body .lead {
   font-weight: normal;
   /* font-style: italic; */
+}
+
+
+oc-request-body-content .nav-item a {
+  /* background-color: red; */
 }

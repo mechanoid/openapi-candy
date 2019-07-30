@@ -23,7 +23,7 @@ const menuItems = (paths, options = {}) =>
   })
 
 const menu = (spec, options = {}) => html`
-  <ul class="oc-main-menu nav flex-column  col-sm-3 col-md-2">
+  <ul class="oc-main-menu nav flex-column  col-md-3 col-lg-2">
     ${menuItems(spec.paths, options)}
   </ul>
 `
@@ -47,8 +47,8 @@ const content = (spec, meta) => html`
 
 const specContainer = (spec, meta) => html`
   <div class="row">
-    <div class="oc-spec-menu col-sm-3 col-md-2">${menu(spec, meta)}</div>
-    <div class="oc-spec-content col-sm-9 col-md-10">${content(spec, meta)}</div>
+    <div class="oc-spec-menu col-md-3 col-lg-2">${menu(spec, meta)}</div>
+    <div class="oc-spec-content col-md-9 col-lg-10">${content(spec, meta)}</div>
   </div>
 `
 const resolveSpec = async specPath => {
