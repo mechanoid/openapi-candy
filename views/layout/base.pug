@@ -17,7 +17,7 @@ html(lang="en")
     script.
       /* new SmoothScroll('a[href*="#"].main-nav-link', { offset: 50 }); */
       /* new SmoothScroll('a[href*="#"].oc-anchor-copy-help', { offset: 50 }); */
-      new SmoothScroll('a[href*="#"].nav-link', { offset: 150 });
+      /* new SmoothScroll('a[href*="#"].nav-link', { offset: 150 }); */
 
     script(type="module" src=assets.client('js/oc-spec.mjs'))
   body
@@ -33,6 +33,6 @@ html(lang="en")
           const scroll = new SmoothScroll();
 
           const elem = document.querySelector(`[id="${hashName}"]`)
-          scroll.animateScroll(elem, null, { offset: 150 })
+          /* scroll.animateScroll(elem, null, { offset: 150 }) */
         }
       }, 500)

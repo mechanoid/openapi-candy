@@ -188,9 +188,9 @@ class OCPathOperations extends HTMLElement {
 customElements.define('oc-path-operations', OCPathOperations)
 
 export const pathOperations = path => {
-  const linkRelID = path.data['x-link-rel']
+  const linkRelID = path['x-link-rel']
 
-  const operations = operationsForSupportedVerbs(path.data)
+  const operations = operationsForSupportedVerbs(path)
 
   const pathOperations = new OCPathOperations(linkRelID, path, operations)
 

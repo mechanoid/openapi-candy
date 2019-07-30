@@ -1,4 +1,3 @@
-import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 
 import { pathOperations } from '/assets/client/js/oc-path-operations.mjs'
@@ -17,10 +16,10 @@ const additionalInformation = (path, infoType, options = {}) => {
 }
 
 const pathItem = (pathName, path, options = {}) => {
-  const pathData = path.data
+  const pathData = path
 
   return html`
-    <oc-path id="${path.data['x-link-rel']}">
+    <oc-path id="${path['x-link-rel']}">
       <div class="card mb-3">
         <div class="card-body">
           <h4>
@@ -42,20 +41,14 @@ const pathsContainer = (paths, options = {}) => html`
   </oc-paths>
 `
 
-export const renderPaths = async (pathsConfigs, options = {}) => {
+export const renderPaths = (pathsConfigs, options = {}) => {
   const pathConfigNames = Object.keys(pathsConfigs)
 
-  const pathFutures = pathConfigNames.map(pathItemName => {
-    const pathConfig = pathsConfigs[pathItemName]
+  const paths = pathConfigNames.map(pathItemName => {
+    const path = pathsConfigs[pathItemName]
 
-    return resolveObject(pathConfig, {
-      baseUrl: options.baseUrl
-    }).then(path => {
-      return pathItem(pathItemName, path, Object.assign({}, path.meta, { specPath: options.specPath }))
-    })
+    return pathItem(pathItemName, path, Object.assign({}, path.meta, { specPath: options.specPath }))
   })
-
-  const paths = await Promise.all(pathFutures)
 
   return pathsContainer(paths, options)
 }

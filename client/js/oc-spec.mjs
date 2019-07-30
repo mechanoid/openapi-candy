@@ -1,9 +1,8 @@
-/* global HTMLElement, customElements, fetch */
+/* global HTMLElement, customElements */
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
-import { until } from '/assets/vendor/lit-html/directives/until.js'
 
-import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
+import { loadSchema } from '/assets/client/js/oc-schema-ref.mjs'
 import { renderPaths } from '/assets/client/js/oc-paths.mjs'
 import { apiResourceLink } from '/assets/client/js/uri-templates.mjs'
 
@@ -22,7 +21,7 @@ const menuItems = (paths, options = {}) =>
 
 const menu = (spec, options = {}) => html`
   <ul class="oc-main-menu nav flex-column  col-sm-3 col-md-2">
-    ${menuItems(spec.data.paths, options)}
+    ${menuItems(spec.paths, options)}
   </ul>
 `
 
@@ -39,8 +38,8 @@ const specHeader = info => html`
 `
 
 const content = (spec, meta) => html`
-  ${specHeader(spec.data.info)}
-  ${until(renderPaths(spec.data.paths, meta), 'resolving pathes')}
+  ${specHeader(spec.info)}
+  ${renderPaths(spec.paths, meta)}
 `
 
 const specContainer = (spec, meta) => html`
@@ -49,27 +48,20 @@ const specContainer = (spec, meta) => html`
     <div class="oc-spec-content col-sm-9 col-md-10">${content(spec, meta)}</div>
   </div>
 `
+const resolveSpec = async specPath => {
+  if (!specPath) {
+    throw new Error('no spec-file defined')
+  }
 
-const loadSpec = async specPath =>
-  fetch(specPath)
-    .then(res => {
-      if (!res.ok) {
-        throw new Error(`spec file could not be retrieved: ${res}`)
-      }
-      return res
-    })
-    .then(res => res.json())
-    .then(res => ({
-      data: res,
-      baseUrl: baseUrl(specPath)
-    }))
+  return loadSchema(specPath)
+}
 
 class OpenAPICandySpec extends HTMLElement {
   async connectedCallback () {
     try {
-      const spec = await this.spec()
+      const spec = await resolveSpec(this.specPath)
 
-      await this.render(spec)
+      this.render(spec)
     } catch (e) {
       console.log(e)
     }
@@ -79,25 +71,12 @@ class OpenAPICandySpec extends HTMLElement {
     return this.getAttribute('current-link-rel')
   }
 
-  async spec () {
-    if (this._spec) {
-      return this._spec
-    }
-
-    if (!this.specPath) {
-      throw new Error('no spec-file defined')
-    }
-
-    this._spec = await loadSpec(this.specPath)
-    return this._spec
-  }
-
   get specPath () {
     return this.getAttribute('href')
   }
 
-  async render (spec) {
-    const meta = { baseUrl: spec.baseUrl, specPath: this.specPath, currentLinkRel: this.currentLinkRel }
+  render (spec) {
+    const meta = { specPath: this.specPath, currentLinkRel: this.currentLinkRel }
 
     render(specContainer(spec, meta), this)
   }

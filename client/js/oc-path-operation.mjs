@@ -1,7 +1,6 @@
 /* global customElements, HTMLElement */
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
-import { until } from '/assets/vendor/lit-html/directives/until.js'
 import { parameters } from '/assets/client/js/oc-parameters.mjs'
 import { requestBody } from '/assets/client/js/oc-request-body.mjs'
 
@@ -35,33 +34,26 @@ const externalDocs = operation => {
 export class OCPathOperation extends HTMLElement {
   constructor (pathItem, verb, operation) {
     super()
-    this.pathItem = pathItem.data
-    this.baseUrl = pathItem.meta.baseUrl
+    this.pathItem = pathItem
     this.verb = verb
     this.operation = operation
   }
 
-  async render () {
+  render () {
     return render(
       html`
         ${optionalText(this.operation, 'summary', true)}
         ${optionalText(this.operation, 'description')}
         ${externalDocs(this.operation)}
-        ${until(
-    parameters(this.operation, { baseUrl: this.baseUrl }),
-    'loading parameters'
-  )}
-        ${until(
-    requestBody(this.operation, { baseUrl: this.baseUrl }),
-    'loading request body'
-  )}
+        ${parameters(this.operation)}
+        ${requestBody(this.operation)}
       `,
       this
     )
   }
 
-  async connectedCallback () {
-    await this.render()
+  connectedCallback () {
+    this.render()
   }
 }
 

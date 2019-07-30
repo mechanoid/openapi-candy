@@ -1,5 +1,4 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import { resolveObject } from '/assets/client/js/oc-schema-ref.mjs'
 
 const badge = (param, text, options = {}) => {
   const classes = options.classes ? options.classes : ''
@@ -56,16 +55,17 @@ const parameterSection = (type, parameters) => {
   return ''
 }
 
-export const parameters = async (operation, options = {}) => {
-  const parameterConfig = operation.parameters
+export const parameters = (operation, options = {}) => {
+  const parameters = operation.parameters
 
-  if (parameterConfig) {
-    const parameters = await resolveObject(parameterConfig, options)
-
+  if (parameters) {
     const paramTypes = ['header', 'path', 'query', 'cookie']
 
     const paramTables = paramTypes.map(type => {
-      const params = parameters.data.filter(p => p.in === type)
+      console.log('')
+      console.log('')
+      console.log('parameters:', JSON.stringify(parameters))
+      const params = parameters.filter(p => p.in === type)
 
       return parameterSection(type, params)
     })

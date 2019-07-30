@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
   const currentLinkRel = req.query.linkRel
   const specPath = req.query.spec
   const content = {
-    specPath: specPath || 'specs/petstore-example.3.0.json'
+    specPath: specPath || '/specs/petstore-example.3.0.json'
   }
 
   res.render('index', { content, assets, currentLinkRel })
