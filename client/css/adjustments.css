@@ -89,6 +89,11 @@ h5 {
   border-left: 0.25rem solid #5bc0de;
 }
 
+oc-param-section {
+  display: block;
+  padding: .5rem 0;
+}
+
 oc-path-operations .tab-content {
   padding-top: 0.5rem;
   border-top: 1px solid #eee;
