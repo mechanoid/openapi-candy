@@ -7,6 +7,17 @@ const badge = (param, text, options = {}) => {
     : ''
 }
 
+const parameterType = config => {
+  if (config.schema) {
+    return html`${config.schema.type} (${config.schema.format})`
+  } else if (config.content) {
+    // TODO: handle content rendering for parameters
+    return html``
+  }
+
+  return ''
+}
+
 // TODO: handle allowEmpty for params
 const parameterSection = (type, parameters) => {
   if (parameters.length > 0) {
@@ -17,6 +28,7 @@ const parameterSection = (type, parameters) => {
         <tr>
           <td><span class="oc-param-name">${param.name}</span></td>
           <td>${param.description}</td>
+          <td>${parameterType(param)}</td>
           <td>
             ${badge(param.required, 'required', { classes: 'badge-primary' })}
             ${badge(param.deprecated, 'deprecated', { classes: 'badge-warning' })}
@@ -39,7 +51,9 @@ const parameterSection = (type, parameters) => {
               <tbody></tbody>
               <thead>
                 <th>parameter</th>
-                <th colspan="2"></th>
+                <th>Description</th>
+                <th>type</th>
+                <th></th>
                 <th>example</th>
               </thead>
               <tbody>

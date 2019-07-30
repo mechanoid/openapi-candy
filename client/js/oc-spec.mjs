@@ -29,7 +29,7 @@ const menu = (spec, options = {}) => html`
 // TODO: render `contact` if available
 // TODO: render `license` if available
 const specHeader = info => html`
-  <header>
+  <header class="spec-header">
     <h2>${info.title} (${info.version})</h2>
     ${info.description
     ? html`<p>${info.description}</p>`
