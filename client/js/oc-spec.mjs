@@ -1,4 +1,4 @@
-/* global HTMLElement, customElements */
+/* global HTMLElement, customElements, hljs, SmoothScroll, window */
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
@@ -83,6 +83,21 @@ class OpenAPICandySpec extends HTMLElement {
 
     // console.log(JSON.stringify(spec, null, 2))
     render(specContainer(spec, meta), this)
+
+    // hljs.initHighlightingOnLoad()
+    document.querySelectorAll('pre code').forEach((block) => {
+      hljs.highlightBlock(block)
+    })
+
+    const hash = window.location.hash
+
+    if (hash) {
+      const hashName = hash.slice(1)
+      const scroll = new SmoothScroll()
+
+      const elem = document.querySelector(`[id="${hashName}"]`)
+      scroll.animateScroll(elem, null, { offset: 150 })
+    }
   }
 }
 

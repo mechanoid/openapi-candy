@@ -1,11 +1,27 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 
-const contentTypeMenuItem = contentType => html`
+const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
+
+const propertyObject = schema => {
+  if (!schema.properties) {
+    return {}
+  }
+
+  return Object.keys(schema.properties).reduce((result, propName) => {
+    const prop = schema.properties[propName]
+    result[`${propRequired(schema, propName) ? '*' : ''}${propName}`] = prop.format || prop.type
+    return result
+  }, {})
+}
+
+const contentTypeMenuItem = (contentType, first) => html`
   <li class="nav-item active">
-    <a class="nav-link oc-content-type-switch" target="${contentType}">${contentType}</a>
+    <a href="" class="nav-link oc-content-type-switch ${first ? 'active' : ''}" target="${contentType}">${contentType}</a>
   </li>`
 
-const contentTypeBody = (contentType, bodyFormat) => html`<div>${contentType}</div>`
+const contentTypeBody = (contentType, bodyFormat, first) => html`<div class="content-type-body ${first ? 'active' : ''}">
+  <pre><code class="JSON">${JSON.stringify(propertyObject(bodyFormat.schema), null, 2)}</code></pre>
+</div>`
 
 const requestBodyContent = content => {
   const contentTypes = Object.keys(content)
@@ -13,15 +29,13 @@ const requestBodyContent = content => {
   return html`
   <oc-request-body-content class="container">
     <div class="row">
-
-      <ul class="nav nav-pills flex-column col-md-4">
-        ${contentTypes.map(contentType => contentTypeMenuItem(contentType))}
+      <ul class="nav flex-column col-sm-4 col-lg-2">
+        ${contentTypes.map((contentType, index) => contentTypeMenuItem(contentType, index === 0))}
       </ul>
-      <div class="oc-spec-content col-md-8">
-        ${contentTypes.map(contentType => contentTypeBody(contentType, content[contentType]))}
+      <div class="oc-request-body-tab-content col-sm-8 col-lg-10">
+        ${contentTypes.map((contentType, index) => contentTypeBody(contentType, content[contentType], index === 0))}
       </div>
     </div>
-
   </oc-request-body-content>`
 }
 
@@ -35,11 +49,10 @@ export const requestBody = (operation, options = {}) => {
           <header>
             <h5>request body${requestBody.required ? '*' : ''}</h5>
           </header>
-          <oc-foldable-containerDISABLED>
+          <oc-foldable-container>
             ${requestBody.description ? html`<p class="lead">${requestBody.description}</p>` : ''}
             ${requestBodyContent(requestBody.content)}
-            <pre>${JSON.stringify(requestBody.content, null, 2)}<pre>
-          </oc-foldable-containerDISABLED>
+          </oc-foldable-container>
         </oc-foldable>
       </oc-request-body>
     `

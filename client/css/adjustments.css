@@ -8,12 +8,17 @@
 }
 
 body {
-  color: #fff;
+  /* color: #fff; */
+  background-color: rgb(232.0, 232.0, 248.0);
   font-family: 'Lato', sans-serif;
-  background-color: rgb(61.0, 76.0, 121.0);
-  background: linear-gradient(70deg, rgb(61.0, 76.0, 121.0) 0%, rgb(114.375, 142.5, 226.875) 100%);
   /* padding: 2rem 1rem; */
 
+}
+
+pre {
+  font-size: .75rem;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  margin-bottom: 0;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -89,6 +94,69 @@ h5 {
   border-left: 0.25rem solid #5bc0de;
 }
 
+/* oc-request-body-content {
+} */
+oc-request-body-content .nav-item {
+  margin-top:0;
+  margin-bottom: .2rem;
+  cursor: pointer;
+}
+
+oc-request-body-content .nav-link {
+  padding-bottom: .1rem;
+  color: #66635d;
+}
+oc-request-body-content .nav-link:hover,
+oc-request-body-content .nav-link.active {
+  color: #000;
+  font-weight: bold;
+}
+
+oc-request-body-content {
+}
+oc-request-body-content .row {
+    display: flex;
+    margin-left: -7rem;
+    margin-right: -7rem;
+    padding: 1rem 6rem;
+
+    background-color: rgb(255.0, 245.0, 244.0);
+    /* background: linear-gradient(70deg, rgb(107.0, 25.0, 156.0) 0%, rgb(15.0, 0.0, 92.0) 100%); */
+}
+
+.oc-request-body-tab-content {
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 2px;
+}
+.oc-request-body-tab-content pre{
+  /* color: #fff; */
+}
+.content-type-body {
+  display: none;
+}
+
+.content-type-body.active {
+  display: block;
+}
+
+a.oc-content-type-switch {
+  font-size: .875rem;
+  transition: 0.3s;
+  color: rgb(246.0, 128.0, 152.0);
+
+}
+
+.oc-content-type-switch:hover,
+.oc-content-type-switch.active {
+  font-weight: bold;
+}
+.oc-content-type-switch.active {
+  border-bottom: 2px solid #000;
+
+}
+
+
 oc-param-section {
   display: block;
   padding: .5rem 0;
@@ -106,13 +174,11 @@ oc-path-operation .lead {
 
 .oc-param-name {
   font-weight: bold;
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  /* font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; */
 }
 
 .oc-param-example {
-  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier,
-    monospace;
+  /* font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; */
 }
 
 oc-foldable header {
@@ -166,11 +232,12 @@ oc-foldable.show oc-foldable-container {
 .oc-spec-content {
   padding: 2rem 3rem;
   padding-bottom: 10rem;
+  overflow: hidden;
 }
 
 .oc-spec-menu {
   background-color: rgb(26.0, 31.0, 66.0);
-  background: linear-gradient(50deg, rgb(26.0, 31.0, 66.0) 0%, rgb(61.0, 69.0, 121.0) 100%);
+  background: linear-gradient(50deg, rgb(26.0, 31.0, 66.0) 0%, rgb(57.0, 32.0, 117.0) 100%);
   color: #fff;
 }
 
