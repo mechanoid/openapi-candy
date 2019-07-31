@@ -9,10 +9,13 @@ import '/assets/client/js/oc-foldable.mjs'
 const optionalText = (operation, textProperty, lead = false) => {
   // TODO: support commonmark
   if (operation[textProperty]) {
-    return html`<p class="operation-info ${textProperty} ${lead ? 'lead' : ''}">
-        ${operation[textProperty]}
-      </p>`
+    if (lead) {
+      return html`<h4>${operation[textProperty]}</h4>`
+    }
+
+    return html`<p class="operation-info ${textProperty}">${operation[textProperty]}</p>`
   }
+
   return ''
 }
 

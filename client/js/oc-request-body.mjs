@@ -3,16 +3,27 @@ import { html } from '/assets/vendor/lit-html/lit-html.js'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
 
-const propertyRow = (propName, prop) => html`
+// TODO: duplicate from parameters
+const badge = (param, text, options = {}) => {
+  const classes = options.classes ? options.classes : ''
+  return param
+    ? html`<span class="badge badge-secondary ${classes}">${text}</span>`
+    : ''
+}
+
+const propertyRow = (schema, propName, prop) => html`
   <tr>
     <td>${propName}</td>
-    <td>${prop.format || prop.type}</td>
+    <td>${prop.description}</td>
+    <td>${prop.format || prop.type}${prop.default ? prop.default : ''}</td>
+    <td>
+      ${propRequired(schema, propName) ? badge(true, 'required') : ''}
+    </td>
   </tr>
 `
 
 const propertyTable = schema => {
   if (!schema.properties) {
-    console.log(schema)
     return ''
   }
 
@@ -21,11 +32,13 @@ const propertyTable = schema => {
       <thead>
         <tr>
           <th>Property</th>
-          <th>Type/Format</th>
+          <th>Description</th>
+          <th>Type/Format (Default)</th>
+          <th>Info</th>
         </tr>
       </thead>
       <tbody>
-        ${Object.keys(schema.properties).map(propName => propertyRow(propName, schema.properties[propName]))}
+        ${Object.keys(schema.properties).map(propName => propertyRow(schema, propName, schema.properties[propName]))}
       </tbody>
     </table>
   `
@@ -38,7 +51,7 @@ const propertyTable = schema => {
 
 const contentTypeBody = (contentType, bodyFormat) => html`
   <oc-request-body-content-type>
-    <h5>${contentType}</h5>
+    <h6>${contentType}</h6>
 
     <ul class="nav nav-pills">
       <li class="nav-item"><a href="" class="oc-content-type-tab nav-link active" data-target="properties">Properties</a></li>
@@ -74,7 +87,7 @@ export const requestBody = (operation, options = {}) => {
     return html`
       <oc-request-body>
         <header>
-          <h4>request body${requestBody.required ? '*' : ''}</h4>
+          <h5>request body${requestBody.required ? '*' : ''}</h5>
         </header>
         ${requestBody.description ? html`<p class="lead">${requestBody.description}</p>` : ''}
         ${requestBodyContent(requestBody.content)}

@@ -9,7 +9,7 @@ const additionalInformation = (path, infoType, options = {}) => {
   if (info) {
     return html`
       <p class="additional-information ${infoType} ${options.lead ? 'lead' : ''}">
-        ${info}
+        ${info} ${options.join}
       </p>
     `
   }
@@ -24,10 +24,10 @@ const pathItem = (pathName, path, options = {}) => {
         <div class="card-body">
           <h3>
             <a class="oc-anchor-copy-help" href="${apiResourceLink({ spec: options.specPath, linkRel: pathData['x-link-rel'] })}">
-              ${pathData['x-link-rel']} <strong>${pathName}</strong>
+              ${pathData.summary}
             </a>
           </h3>
-          ${additionalInformation(pathData, 'summary', { lead: true })}
+          ${additionalInformation(pathData, 'x-link-rel', { lead: true, join: `- ${pathName}` })}
           ${additionalInformation(pathData, 'description')}
           ${pathOperations(path)}
         </div>

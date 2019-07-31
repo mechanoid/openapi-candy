@@ -44,7 +44,7 @@ const parameterSection = (type, parameters) => {
       <oc-param-section>
         <oc-foldable>
           <header>
-            <h4>${type} parameters</h4>
+            <h5>${type} parameters</h5>
           </header>
           <oc-foldable-container>
             <table class="table">
@@ -53,7 +53,7 @@ const parameterSection = (type, parameters) => {
                 <th>parameter</th>
                 <th>Description</th>
                 <th>type</th>
-                <th></th>
+                <th>Info</th>
                 <th>example</th>
               </thead>
               <tbody>
