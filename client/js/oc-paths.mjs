@@ -22,11 +22,11 @@ const pathItem = (pathName, path, options = {}) => {
     <oc-path id="${path['x-link-rel']}">
       <div class="card mb-3">
         <div class="card-body">
-          <h4>
+          <h3>
             <a class="oc-anchor-copy-help" href="${apiResourceLink({ spec: options.specPath, linkRel: pathData['x-link-rel'] })}">
               ${pathData['x-link-rel']} <strong>${pathName}</strong>
             </a>
-          </h4>
+          </h3>
           ${additionalInformation(pathData, 'summary', { lead: true })}
           ${additionalInformation(pathData, 'description')}
           ${pathOperations(path)}

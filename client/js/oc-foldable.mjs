@@ -26,4 +26,4 @@ class OCFoldable extends HTMLElement {
   }
 }
 
-customElements.define('oc-foldable', OCFoldable)
+// customElements.define('oc-foldable', OCFoldable)

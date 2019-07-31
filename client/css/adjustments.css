@@ -16,9 +16,13 @@ body {
 }
 
 pre {
+  display: block;
   font-size: .75rem;
   font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   margin-bottom: 0;
+}
+pre code {
+  display: block;
 }
 
 a:link, a:visited, a:hover, a:active {
@@ -39,6 +43,11 @@ h1, h2 {
 
 tbody {
   font-size: .875rem;
+}
+
+.table thead tr th {
+  border-top-width: 0px;
+  border-bottom-width: 1px;
 }
 
 .card {
@@ -113,6 +122,8 @@ oc-request-body-content .nav-link.active {
 }
 
 oc-request-body-content {
+  display: block;
+  padding: 1rem 0;
 }
 oc-request-body-content .row {
     display: flex;
@@ -132,29 +143,31 @@ oc-request-body-content .row {
 .oc-request-body-tab-content pre{
   /* color: #fff; */
 }
-.content-type-body {
+
+.oc-content-type-tab-panel {
   display: none;
+  margin: 1rem 0;
 }
 
-.content-type-body.active {
+.oc-content-type-tab-panel.active {
   display: block;
 }
 
-a.oc-content-type-switch {
+/* a.oc-content-type-switch {
   font-size: .875rem;
   transition: 0.3s;
   color: rgb(246.0, 128.0, 152.0);
 
-}
+} */
 
-.oc-content-type-switch:hover,
+/* .oc-content-type-switch:hover,
 .oc-content-type-switch.active {
   font-weight: bold;
 }
 .oc-content-type-switch.active {
   border-bottom: 2px solid #000;
 
-}
+} */
 
 
 oc-param-section {
@@ -181,7 +194,7 @@ oc-path-operation .lead {
   /* font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; */
 }
 
-oc-foldable header {
+/* oc-foldable header {
   user-select: none;
   position: relative;
   cursor: pointer;
@@ -208,7 +221,7 @@ oc-foldable-container {
 }
 oc-foldable.show oc-foldable-container {
   display: block;
-}
+} */
 
 .oc-anchor-copy-help {
   position: relative;
