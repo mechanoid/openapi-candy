@@ -25,20 +25,23 @@ const propertiesFromHash = rawHash => {
 const resolveObjectRefFromHash = (item, hash) =>
   propertiesFromHash(hash).reduce((nested, prop, index) => nested[prop], item)
 
-const resultWithMetaData = (res, baseUrl) => ({
-  baseUrl,
-  data: res
-})
-
 export const resolveObjectRefRef = async (item, options = {}) => {
   if (!item.$ref && !options.itemIsURI) {
-    return resultWithMetaData(item, options.baseUrl)
+    return {
+      baseUrl: options.baseUrl,
+      data: item,
+      resolveChain: options.resolveChain
+    }
   }
 
   const ref = options.itemIsURI ? item : item.$ref
+
   const url = new URL(ref, options.baseUrl)
   const hash = url.hash
 
+  if (options.resolveChain.indexOf(url.toString()) >= 0) {
+    throw new Error(`circular spec reference for ${url}`)
+  }
   return fetch(url)
     .then(res => {
       if (!res.ok) {
@@ -60,31 +63,35 @@ export const resolveObjectRefRef = async (item, options = {}) => {
       }
       return res
     })
-    .then(res => {
+    .then(res => ({
       // when the object is loaded from a differnt source, it has to be the baseUrl for
       // internal lookups of other refs
-      return resultWithMetaData(res, url)
-    })
+      baseUrl: url,
+      data: res,
+      resolveChain: (options.resolveChain || []).concat(url.toString())
+    }))
 }
 
-const resolveArray = async (schema, baseUrl) => Promise.all(schema.map(async item => {
-  const resolved = await resolveObjectRefRef(item, { baseUrl })
-  return resolveSchema(resolved.data, resolved.baseUrl)
+const resolveArray = async (schema, formerBaseUrl, formerResolveChain = []) => Promise.all(schema.map(async item => {
+  const { data, baseUrl, resolveChain } = await resolveObjectRefRef(item, { baseUrl: formerBaseUrl, resolveChain: formerResolveChain })
+
+  return resolveSchema(data, baseUrl, resolveChain)
 }))
 
-const resolveURI = async (schemaSrc, baseUrl, options = {}) => {
-  const resolved = await resolveObjectRefRef(schemaSrc, { baseUrl, itemIsURI: options.schemaIsURI })
-  const dereferenced = await resolveSchema(resolved.data, resolved.baseUrl)
-  return dereferenced
+const resolveURI = async (schemaSrc, formerBaseUrl, formerResolveChain = [], options = {}) => {
+  const { data, baseUrl, resolveChain } = await resolveObjectRefRef(schemaSrc, { baseUrl: formerBaseUrl, itemIsURI: options.schemaIsURI, resolveChain: formerResolveChain })
+
+  return resolveSchema(data, baseUrl, resolveChain)
 }
 
-const resolveObject = async (schema, baseUrl) => Object.keys(schema).reduce(async (previousPromise, prop) => {
+const resolveObject = async (schema, formerBaseUrl, formerResolveChain = []) => Object.keys(schema).reduce(async (previousPromise, prop) => {
   const result = await previousPromise
   const item = schema[prop]
 
   try {
-    const resolved = await resolveObjectRefRef(item, { baseUrl })
-    const dereferenced = await resolveSchema(resolved.data, resolved.baseUrl)
+    const { data, baseUrl, resolveChain } = await resolveObjectRefRef(item, { baseUrl: formerBaseUrl, resolveChain: formerResolveChain })
+
+    const dereferenced = await resolveSchema(data, baseUrl, resolveChain)
     result[prop] = dereferenced
   } catch (e) {
     console.log(e)
@@ -93,22 +100,22 @@ const resolveObject = async (schema, baseUrl) => Object.keys(schema).reduce(asyn
   return result
 }, Promise.resolve({}))
 
-export const resolveSchema = async (schema, baseUrl, options = {}) => {
+export const resolveSchema = async (schema, baseUrl, resolveChain = [], options = {}) => {
   if (!baseUrl) {
     throw new Error(`baseUrl is required: ${JSON.stringify(schema)}`)
   }
 
   if (options.schemaIsURI) {
-    return resolveURI(schema, baseUrl, options)
+    return resolveURI(schema, baseUrl, resolveChain, options)
   } else if (isObject(schema)) {
-    return resolveObject(schema, baseUrl)
+    return resolveObject(schema, baseUrl, resolveChain)
   } else if (isArray(schema)) {
-    return resolveArray(schema, baseUrl)
+    return resolveArray(schema, baseUrl, resolveChain)
   } else {
     return schema
   }
 }
 
-export const loadSchema = async (schemaSrc) => {
-  return resolveSchema(schemaSrc, baseUrl(schemaSrc), { schemaIsURI: true })
+export const loadSchema = async schemaSrc => {
+  return resolveSchema(schemaSrc, baseUrl(schemaSrc), [], { schemaIsURI: true })
 }
