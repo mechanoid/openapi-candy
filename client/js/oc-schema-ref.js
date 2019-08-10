@@ -72,11 +72,8 @@ export const resolveObjectRefRef = async (item, options = {}) => {
     }))
 }
 
-const resolveArray = async (schema, formerBaseUrl, formerResolveChain = []) => Promise.all(schema.map(async item => {
-  const { data, baseUrl, resolveChain } = await resolveObjectRefRef(item, { baseUrl: formerBaseUrl, resolveChain: formerResolveChain })
-
-  return resolveSchema(data, baseUrl, resolveChain)
-}))
+const resolveArray = async (schema, formerBaseUrl, formerResolveChain = []) =>
+  Promise.all(schema.map(async item => resolveSchema(item, formerBaseUrl, formerResolveChain)))
 
 const resolveURI = async (schemaSrc, formerBaseUrl, formerResolveChain = [], options = {}) => {
   const { data, baseUrl, resolveChain } = await resolveObjectRefRef(schemaSrc, { baseUrl: formerBaseUrl, itemIsURI: options.schemaIsURI, resolveChain: formerResolveChain })
