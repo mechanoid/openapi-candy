@@ -11,16 +11,6 @@ class ArrayWithRef extends Array {
   }
 }
 
-class ObjectWithRef extends Object {
-  set $ref (ref) {
-    this._$ref = ref
-  }
-
-  get $ref () {
-    return this._$ref
-  }
-}
-
 const typeOfObject = object => {
   const objectTypePattern = /\[object (.*)\]/
   const stringifiedType = Object.prototype.toString.call(object)
