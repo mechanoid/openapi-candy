@@ -1,6 +1,26 @@
 /* global fetch */
 import { baseUrl } from '/assets/client/js/oc-url-helper.js'
 
+class ArrayWithRef extends Array {
+  set $ref (ref) {
+    this._$ref = ref
+  }
+
+  get $ref () {
+    return this._$ref
+  }
+}
+
+class ObjectWithRef extends Object {
+  set $ref (ref) {
+    this._$ref = ref
+  }
+
+  get $ref () {
+    return this._$ref
+  }
+}
+
 const typeOfObject = object => {
   const objectTypePattern = /\[object (.*)\]/
   const stringifiedType = Object.prototype.toString.call(object)
@@ -61,6 +81,17 @@ export const resolveObjectRefRef = async (item, options = {}) => {
       if (isObject(res) && isObject(item)) {
         return Object.assign({}, res, item) // for keys in main spec and in referenced item, the result is undefined. We merge!
       }
+      return res
+    })
+    .then(res => {
+      if (isArray(res)) {
+        return new ArrayWithRef(res)
+      }
+
+      return res
+    })
+    .then(res => {
+      res.$ref = url.toString()
       return res
     })
     .then(res => ({
