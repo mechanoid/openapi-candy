@@ -4,6 +4,7 @@ import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
 import { loadSchema } from '/assets/client/js/oc-schema-ref.js'
 import { renderPaths } from '/assets/client/js/oc-paths.js'
+import { renderComponents } from '/assets/client/js/oc-components.js'
 import { apiResourceLink } from '/assets/client/js/uri-templates.js'
 
 const menuItems = (paths, options = {}) => paths
@@ -43,6 +44,7 @@ const specHeader = info => html`
 const content = (spec, meta) => html`
   ${specHeader(spec.info)}
   ${renderPaths(spec.paths, meta)}
+  ${renderComponents(spec.components, meta)}
 `
 
 const specContainer = (spec, meta) => html`
