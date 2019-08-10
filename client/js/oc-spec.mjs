@@ -6,8 +6,8 @@ import { loadSchema } from '/assets/client/js/oc-schema-ref.mjs'
 import { renderPaths } from '/assets/client/js/oc-paths.mjs'
 import { apiResourceLink } from '/assets/client/js/uri-templates.mjs'
 
-const menuItems = (paths, options = {}) =>
-  Object.keys(paths).map(pathName => {
+const menuItems = (paths, options = {}) => paths
+  ? Object.keys(paths).map(pathName => {
     const path = paths[pathName]
 
     return html`
@@ -20,7 +20,7 @@ const menuItems = (paths, options = {}) =>
         </a>
       </li>
     `
-  })
+  }) : ''
 
 const menu = (spec, options = {}) => html`
   <ul class="oc-main-menu nav flex-column  col-md-3 col-lg-2">
@@ -79,6 +79,7 @@ class OpenAPICandySpec extends HTMLElement {
   }
 
   render (spec) {
+    console.log(JSON.stringify(spec, 0, 2))
     const meta = { specPath: this.specPath, currentLinkRel: this.currentLinkRel }
 
     // console.log(JSON.stringify(spec, null, 2))

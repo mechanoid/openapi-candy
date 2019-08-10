@@ -144,31 +144,14 @@ oc-request-body-content .row {
   /* color: #fff; */
 }
 
-.oc-content-type-tab-panel {
+.oc-mime-type-tab-panel {
   display: none;
   margin: 1rem 0;
 }
 
-.oc-content-type-tab-panel.active {
+.oc-mime-type-tab-panel.active {
   display: block;
 }
-
-/* a.oc-content-type-switch {
-  font-size: .875rem;
-  transition: 0.3s;
-  color: rgb(246.0, 128.0, 152.0);
-
-} */
-
-/* .oc-content-type-switch:hover,
-.oc-content-type-switch.active {
-  font-weight: bold;
-}
-.oc-content-type-switch.active {
-  border-bottom: 2px solid #000;
-
-} */
-
 
 oc-param-section {
   display: block;

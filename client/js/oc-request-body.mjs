@@ -1,5 +1,5 @@
-/* global customElements, HTMLElement */
 import { html } from '/assets/vendor/lit-html/lit-html.js'
+import '/assets/client/js/oc-mime-type.mjs'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
 
@@ -50,24 +50,24 @@ const propertyTable = schema => {
 //   </li>`
 
 const contentTypeBody = (contentType, bodyFormat) => html`
-  <oc-request-body-content-type>
+  <oc-mime-type>
     <h6>${contentType}</h6>
 
     <ul class="nav nav-pills">
-      <li class="nav-item"><a href="" class="oc-content-type-tab nav-link active" data-target="properties">Properties</a></li>
-      <li class="nav-item"><a href="" class="oc-content-type-tab nav-link" data-target="examples">Examples</a></li>
-      <li class="nav-item"><a href="" class="oc-content-type-tab nav-link" data-target="schema">Schema</a></li>
+      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link active" data-target="properties">Properties</a></li>
+      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link" data-target="examples">Examples</a></li>
+      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link" data-target="schema">Schema</a></li>
     </ul>
-    <div class="oc-content-type-tab-panel active" data-content="properties">
+    <div class="oc-mime-type-tab-panel active" data-content="properties">
       ${propertyTable(bodyFormat.schema)}
     </div>
-    <div class="oc-content-type-tab-panel" data-content="examples">
+    <div class="oc-mime-type-tab-panel" data-content="examples">
       <pre><code class="JSON">${JSON.stringify(bodyFormat.example || bodyFormat.examples, null, 2)}</code></pre>
     </div>
-    <div class="oc-content-type-tab-panel" data-content="schema">
+    <div class="oc-mime-type-tab-panel" data-content="schema">
       <pre><code class="JSON">${JSON.stringify(bodyFormat.schema, null, 2)}</code></pre>
     </div>
-  </oc-request-body-content-type>
+  </oc-mime-type>
   `
 
 const requestBodyContent = content => {
@@ -97,25 +97,3 @@ export const requestBody = (operation, options = {}) => {
 
   return ''
 }
-
-class RequestBodyContentType extends HTMLElement {
-  connectedCallback () {
-    this.tabs = this.querySelectorAll('.oc-content-type-tab')
-    this.panels = this.querySelectorAll('.oc-content-type-tab-panel')
-
-    this.tabs.forEach(tab => {
-      tab.addEventListener('click', e => {
-        e.preventDefault()
-        this.tabs.forEach(tab => tab.classList.remove('active'))
-        this.panels.forEach(panel => panel.classList.remove('active'))
-
-        const target = tab.getAttribute('data-target')
-        const selectedPanel = this.querySelector(`[data-content="${target}"]`)
-        tab.classList.add('active')
-        selectedPanel.classList.add('active')
-      })
-    })
-  }
-}
-
-customElements.define('oc-request-body-content-type', RequestBodyContentType)

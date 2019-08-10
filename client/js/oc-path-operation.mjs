@@ -3,6 +3,7 @@
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 import { parameters } from '/assets/client/js/oc-parameters.mjs'
 import { requestBody } from '/assets/client/js/oc-request-body.mjs'
+import { responses } from '/assets/client/js/oc-responses.mjs'
 
 import '/assets/client/js/oc-foldable.mjs'
 
@@ -50,6 +51,7 @@ export class OCPathOperation extends HTMLElement {
         ${externalDocs(this.operation)}
         ${parameters(this.operation)}
         ${requestBody(this.operation)}
+        ${responses(this.operation)}
       `,
       this
     )
