@@ -1,5 +1,5 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import '/assets/client/js/oc-mime-type.js'
+import '/assets/client/js/oc-tabbed-content.js'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
 
@@ -50,24 +50,24 @@ const propertyTable = schema => {
 //   </li>`
 
 const contentTypeBody = (contentType, bodyFormat) => html`
-  <oc-mime-type>
+  <oc-tabbed-content>
     <h6>${contentType}</h6>
 
     <ul class="nav nav-pills">
-      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link active" data-target="properties">Properties</a></li>
-      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link" data-target="examples">Examples</a></li>
-      <li class="nav-item"><a href="" class="oc-mime-type-tab nav-link" data-target="schema">Schema</a></li>
+      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link active" data-target="properties">Properties</a></li>
+      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link" data-target="examples">Examples</a></li>
+      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link" data-target="schema">Schema</a></li>
     </ul>
-    <div class="oc-mime-type-tab-panel active" data-content="properties">
+    <div class="oc-tabbed-content-tab-panel active" data-content="properties">
       ${propertyTable(bodyFormat.schema)}
     </div>
-    <div class="oc-mime-type-tab-panel" data-content="examples">
+    <div class="oc-tabbed-content-tab-panel" data-content="examples">
       <pre><code class="JSON">${JSON.stringify(bodyFormat.example || bodyFormat.examples, null, 2)}</code></pre>
     </div>
-    <div class="oc-mime-type-tab-panel" data-content="schema">
+    <div class="oc-tabbed-content-tab-panel" data-content="schema">
       <pre><code class="JSON">${JSON.stringify(bodyFormat.schema, null, 2)}</code></pre>
     </div>
-  </oc-mime-type>
+  </oc-tabbed-content>
   `
 
 const requestBodyContent = content => {

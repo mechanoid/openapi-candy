@@ -1,9 +1,9 @@
 /* global customElements, HTMLElement */
 
-class MimeType extends HTMLElement {
+class TabbedContent extends HTMLElement {
   connectedCallback () {
-    this.tabs = this.querySelectorAll('.oc-mime-type-tab')
-    this.panels = this.querySelectorAll('.oc-mime-type-tab-panel')
+    this.tabs = this.querySelectorAll('.oc-tabbed-content-tab')
+    this.panels = this.querySelectorAll('.oc-tabbed-content-tab-panel')
 
     this.tabs.forEach(tab => {
       tab.addEventListener('click', e => {
@@ -20,4 +20,4 @@ class MimeType extends HTMLElement {
   }
 }
 
-customElements.define('oc-mime-type', MimeType)
+customElements.define('oc-tabbed-content', TabbedContent)

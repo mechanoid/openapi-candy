@@ -144,12 +144,12 @@ oc-request-body-content .row {
   /* color: #fff; */
 }
 
-.oc-mime-type-tab-panel {
+.oc-tabbed-content-tab-panel {
   display: none;
   margin: 1rem 0;
 }
 
-.oc-mime-type-tab-panel.active {
+.oc-tabbed-content-tab-panel.active {
   display: block;
 }
 
