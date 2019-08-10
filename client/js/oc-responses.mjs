@@ -14,6 +14,7 @@ export const responses = (operation, options = {}) => {
     return html`
       <oc-responses>
 
+        <h5>Responses</h5>
         <table class="table">
           <thead>
             <th>Code</th>
