@@ -2,9 +2,9 @@
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
-import { loadSchema } from '/assets/client/js/oc-schema-ref.mjs'
-import { renderPaths } from '/assets/client/js/oc-paths.mjs'
-import { apiResourceLink } from '/assets/client/js/uri-templates.mjs'
+import { loadSchema } from '/assets/client/js/oc-schema-ref.js'
+import { renderPaths } from '/assets/client/js/oc-paths.js'
+import { apiResourceLink } from '/assets/client/js/uri-templates.js'
 
 const menuItems = (paths, options = {}) => paths
   ? Object.keys(paths).map(pathName => {

@@ -1,5 +1,5 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import '/assets/client/js/oc-mime-type.mjs'
+import '/assets/client/js/oc-mime-type.js'
 
 const response = (code, response) => html`<tr>
   <td>${code}</td>

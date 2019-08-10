@@ -1,5 +1,5 @@
 /* global HTMLElement, customElements */
-import { OCPathOperation } from '/assets/client/js/oc-path-operation.mjs'
+import { OCPathOperation } from '/assets/client/js/oc-path-operation.js'
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
 const SUPPORTED_HTTP_VERBS = [

@@ -1,5 +1,5 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import '/assets/client/js/oc-mime-type.mjs'
+import '/assets/client/js/oc-mime-type.js'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
 

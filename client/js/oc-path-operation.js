@@ -1,11 +1,11 @@
 /* global customElements, HTMLElement */
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
-import { parameters } from '/assets/client/js/oc-parameters.mjs'
-import { requestBody } from '/assets/client/js/oc-request-body.mjs'
-import { responses } from '/assets/client/js/oc-responses.mjs'
+import { parameters } from '/assets/client/js/oc-parameters.js'
+import { requestBody } from '/assets/client/js/oc-request-body.js'
+import { responses } from '/assets/client/js/oc-responses.js'
 
-import '/assets/client/js/oc-foldable.mjs'
+import '/assets/client/js/oc-foldable.js'
 
 const optionalText = (operation, textProperty, lead = false) => {
   // TODO: support commonmark

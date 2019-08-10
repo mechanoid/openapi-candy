@@ -1,5 +1,5 @@
 /* global fetch */
-import { baseUrl } from '/assets/client/js/oc-url-helper.mjs'
+import { baseUrl } from '/assets/client/js/oc-url-helper.js'
 
 const typeOfObject = object => {
   const objectTypePattern = /\[object (.*)\]/
