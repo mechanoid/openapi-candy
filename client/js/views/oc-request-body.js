@@ -1,7 +1,7 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import '/assets/client/js/components/oc-tabbed-content.js'
 
-import { propertyTable } from '/assets/client/js/oc-property-table.js'
+import { propertyTable } from '/assets/client/js/views/oc-property-table.js'
 
 const contentTypeBody = (contentType, bodyFormat) => html`
   <oc-tabbed-content>
