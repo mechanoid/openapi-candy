@@ -40,7 +40,7 @@ export const componentsByCategory = (components, options = {}) => componentCateg
 
 const component = (componentName, component) => html`
   <oc-component id="${componentId(component)}" class="card mb-3">
-    <h4>${componentName}</h4>
+    <h3>${componentName}</h3>
     <oc-tabbed-content>
       <ul class="nav nav-pills">
         <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link active" data-target="properties">Properties</a></li>
@@ -60,7 +60,7 @@ const component = (componentName, component) => html`
 
 const category = (categoryName, components) => html`
   <oc-component-category>
-    <h3>${categoryName}</h3>
+    <h2>${categoryName}</h2>
 
     ${Object.keys(components).map(componentName => component(componentName, components[componentName]))}
   </oc-component-category>

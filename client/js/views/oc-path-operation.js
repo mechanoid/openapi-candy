@@ -9,7 +9,7 @@ const optionalText = (operation, textProperty, lead = false) => {
   // TODO: support commonmark
   if (operation[textProperty]) {
     if (lead) {
-      return html`<h4>${operation[textProperty]}</h4>`
+      return html`<h3>${operation[textProperty]}</h3>`
     }
 
     return html`<p class="operation-info ${textProperty}">${operation[textProperty]}</p>`

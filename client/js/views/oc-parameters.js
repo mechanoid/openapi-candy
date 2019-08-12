@@ -9,7 +9,7 @@ const badge = (param, text, options = {}) => {
 
 const parameterType = config => {
   if (config.schema) {
-    return html`${config.schema.type} (${config.schema.format})`
+    return html`${config.schema.type} ${config.schema.format ? html`(${config.schema.format})` : ''}`
   } else if (config.content) {
     // TODO: handle content rendering for parameters
     return html``
@@ -19,7 +19,7 @@ const parameterType = config => {
 }
 
 // TODO: handle allowEmpty for params
-const parameterSection = (type, parameters) => {
+export const parameterSection = (parameters, type = null) => {
   if (parameters.length > 0) {
     // TODO: add commonmark rendering for description
 
@@ -42,9 +42,7 @@ const parameterSection = (type, parameters) => {
 
     return html`
       <oc-param-section>
-        <header>
-          <h5>${type} parameters</h5>
-        </header>
+        ${type ? html`<header><h4>${type} parameters</h4></header>` : ''}
         <table class="table">
           <tbody></tbody>
           <thead>
@@ -74,7 +72,7 @@ export const parameters = (operation, options = {}) => {
     const paramTables = paramTypes.map(type => {
       const params = parameters.filter(p => p.in === type)
 
-      return parameterSection(type, params)
+      return parameterSection(params, type)
     })
 
     return html`

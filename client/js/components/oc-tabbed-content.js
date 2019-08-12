@@ -5,8 +5,6 @@ class TabbedContent extends HTMLElement {
     this.tabs = this.querySelectorAll(this.tabSelector)
     this.panels = this.querySelectorAll(this.panelSelector)
 
-    console.log(this.panels)
-
     this.tabs.forEach(tab => {
       tab.addEventListener('click', e => {
         e.preventDefault()

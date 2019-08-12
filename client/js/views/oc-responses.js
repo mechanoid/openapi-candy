@@ -1,11 +1,28 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import '/assets/client/js/components/oc-tabbed-content.js'
+import { mimeTypes } from '/assets/client/js/views/oc-mime-types.js'
+import { parameterSection } from '/assets/client/js/views/oc-parameters.js'
 
-const response = (code, response) => html`<tr>
-  <td>${code}</td>
-  <td>${response.description}</td>
-  <td>${response.schema && response.schema.title}</td>
-</tr>`
+const responseHeaders = headers => {
+  if (!headers) { return '' }
+  const headerParams = Object.keys(headers)
+    .map(headerName => Object.assign({}, headers[headerName], { name: headerName, in: 'header' }))
+  return html`
+    ${parameterSection(headerParams)}
+    `
+}
+
+const responseSection = (responseCode, response) => {
+  return html`
+  <h5>${responseCode}</h5>
+  ${response.description ? html`<p class="">${response.description}</p>` : ''}
+
+  <h6>Header</h6>
+  ${responseHeaders(response.headers)}
+
+  <h6>Content</h6>
+  ${mimeTypes(response.content)}`
+}
 
 export const responses = (operation, options = {}) => {
   if (operation.responses) {
@@ -14,17 +31,11 @@ export const responses = (operation, options = {}) => {
     return html`
       <oc-responses>
 
-        <h5>Responses</h5>
-        <table class="table">
-          <thead>
-            <th>Code</th>
-            <th>Description</th>
-            <th>Schema</th>
-          </thead>
-          <tbody>
-            ${Object.keys(responses).map(code => response(code, responses[code]))}
-          </tbody>
-        </table>
+        <h4>Responses</h4>
+
+        ${Object.keys(responses).map(responseCode => responseSection(responseCode, responses[responseCode]))}
+
+
       </oc-responses>
     `
   }

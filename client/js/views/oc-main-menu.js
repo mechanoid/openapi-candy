@@ -37,13 +37,13 @@ const componentCategories = (categories, options = {}) => categories
     const components = categories[categoryName]
 
     return html`
-          <h5>${categoryName}</h5>
+          <h4>${categoryName}</h4>
           ${Object.keys(components).map(componentName => componentMenuItem(componentName, components[componentName], options))}
         `
   }) : ''
 
 const componentMenu = (components, options = {}) => html`
-      <h4>Components</h4>
+      <h3>Components</h3>
       <ul class="nav flex-column  col-12">
         ${componentCategories(components, options)}
       </ul>
@@ -54,7 +54,7 @@ const componentMenu = (components, options = {}) => html`
 // TODO: render `license` if available
 const specHeader = info => html`
       <header class="spec-header">
-        <h2>${info.title} (${info.version})</h2>
+        <h1>${info.title} (${info.version})</h1>
         ${info.description
     ? html`<p>${info.description}</p>`
     : ''}

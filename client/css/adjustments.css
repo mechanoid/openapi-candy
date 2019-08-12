@@ -135,7 +135,7 @@ oc-request-body-content .row {
     margin-right: -7rem;
     padding: 1rem 6rem;
 
-    background-color: rgb(255.0, 245.0, 244.0);
+    /* background-color: rgb(255.0, 245.0, 244.0); */
 
     /* background: linear-gradient(70deg, rgb(107.0, 25.0, 156.0) 0%, rgb(15.0, 0.0, 92.0) 100%); */
 }
@@ -151,7 +151,7 @@ oc-request-body-content .row {
 
 .oc-tabbed-content-tab-panel {
   display: none;
-  margin: 1rem 0;
+  /* margin: 1rem 0; */
 }
 
 .oc-tabbed-content-tab-panel.active {
@@ -314,10 +314,10 @@ oc-path-operation .lead {
   }
 }
 
-oc-request-body .lead {
+/* oc-request-body .lead {
   font-weight: normal;
   /* font-style: italic; */
-}
+} */
 
 
 oc-request-body-content .nav-item a {
