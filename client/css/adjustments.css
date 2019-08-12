@@ -81,7 +81,7 @@ tbody {
   transition: 0.3s;
 }
 
-.nav.nav-pills li {
+.mime-type-container > .nav.nav-pills > li {
   width: 100%;
   white-space: nowrap;
   overflow: hidden;
