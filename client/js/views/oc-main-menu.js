@@ -15,7 +15,7 @@ const menuItem = (path, options) => html`
 `
 
 const componentMenuItem = (componentName, component, options = {}) => html`
-      <li>
+      <li class="condensed">
         <a href="#${componentId(component)}">${componentName}</a>
       </li>
     `
@@ -27,7 +27,7 @@ const menuItems = (paths, options = {}) => paths
   }) : ''
 
 const menu = (spec, options = {}) => html`
-      <ul class="nav flex-column  col-md-3 col-lg-2">
+      <ul class="nav flex-column  col-12">
         ${menuItems(spec.paths, options)}
       </ul>
     `
@@ -44,7 +44,7 @@ const componentCategories = (categories, options = {}) => categories
 
 const componentMenu = (components, options = {}) => html`
       <h4>Components</h4>
-      <ul class="nav flex-column  col-md-3 col-lg-2">
+      <ul class="nav flex-column  col-12">
         ${componentCategories(components, options)}
       </ul>
     `
@@ -70,7 +70,7 @@ const content = (spec, components, meta) => html`
 export const specLayout = (spec, components, meta) => html`
   <div class="row">
     <div class="oc-spec-menu col-md-3 col-lg-2">
-      <div class="oc-main-menu">
+      <div class="oc-main-menu col-md-3 col-lg-2">
         ${menu(spec, components, meta)}
         ${componentMenu(components, meta)}
       </div>

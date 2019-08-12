@@ -245,6 +245,27 @@ oc-path-operation .lead {
   white-space: nowrap;
 }
 
+
+.oc-main-menu h4 {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.oc-main-menu h5 {
+  text-transform: uppercase;
+  font-size: .875rem;
+}
+
+
+.oc-main-menu li.condensed {
+  margin-bottom: .2rem;
+}
+
+.oc-main-menu li.condensed a {
+  padding-top: .1rem;
+  padding-bottom: .1rem;
+}
+
 .oc-main-nav-link-summary {
   display: none;
   font-weight: normal;
@@ -264,7 +285,7 @@ oc-path-operation .lead {
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   .oc-main-menu {
     display: none;
   }
