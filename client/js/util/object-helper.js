@@ -1,4 +1,4 @@
-export const typeOfObject = object => {
+const typeOfObject = object => {
   const objectTypePattern = /\[object (.*)\]/
   const stringifiedType = Object.prototype.toString.call(object)
   const match = stringifiedType.match(objectTypePattern)

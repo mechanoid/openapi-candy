@@ -1,3 +1,4 @@
+/* global btoa */
 import { baseUrl } from '/assets/client/js/oc-url-helper.js'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import { propertyTable } from '/assets/client/js/oc-property-table.js'
@@ -5,6 +6,14 @@ import { propertyTable } from '/assets/client/js/oc-property-table.js'
 const componentCategories = ['schemas', 'responses', 'parameters', 'examples', 'requestBodies', 'headers', 'securitySchemes', 'links', 'callbacks']
 
 const componentHash = (category, componentName) => `#/components/${category}/${componentName}`
+
+export const componentId = component => {
+  if (!component.ref) {
+    throw new Error(`no $ref associated with this componeent, ${component ? JSON.stringify(component, null, 2) : component}`)
+  }
+
+  return btoa(component.ref)
+}
 
 export const componentsByCategory = (components, options = {}) => componentCategories.reduce((categories, category) => {
   const specUrl = baseUrl(options.specPath)
@@ -30,7 +39,7 @@ export const componentsByCategory = (components, options = {}) => componentCateg
 }, {})
 
 const component = (componentName, component) => html`
-  <oc-component id="component.$ref" class="card mb-3">
+  <oc-component id="${componentId(component)}" class="card mb-3">
     <h4>${componentName}</h4>
     <oc-tabbed-content>
       <ul class="nav nav-pills">
@@ -52,11 +61,11 @@ const component = (componentName, component) => html`
 const category = (categoryName, components) => html`
   <oc-component-category>
     <h3>${categoryName}</h3>
+
     ${Object.keys(components).map(componentName => component(componentName, components[componentName]))}
   </oc-component-category>
 `
 
 export const renderComponents = (components, options = {}) => {
-  const categories = componentsByCategory(components, options)
-  return html`${Object.keys(categories).map(catName => category(catName, categories[catName]))}`
+  return html`${Object.keys(components).map(catName => category(catName, components[catName]))}`
 }

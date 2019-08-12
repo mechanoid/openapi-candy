@@ -136,6 +136,25 @@
           },
           "tag": {
             "type": "string"
+          },
+          "fubar": {
+            "type": "array",
+            "items": {
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              }
+            }
+          },
+          "fabula": {
+            "properties": {
+              "nested": {
+                "type": "integer",
+                "format": "int64"
+              }
+            }
           }
         }
       },

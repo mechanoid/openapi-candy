@@ -4,7 +4,7 @@ import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 
 import { loadSchema } from '/assets/client/js/oc-schema-ref.js'
 import { renderPaths } from '/assets/client/js/oc-paths.js'
-import { renderComponents } from '/assets/client/js/oc-components.js'
+import { renderComponents, componentsByCategory, componentId } from '/assets/client/js/oc-components.js'
 import { apiResourceLink } from '/assets/client/js/uri-templates.js'
 
 const menuItems = (paths, options = {}) => paths
@@ -23,9 +23,32 @@ const menuItems = (paths, options = {}) => paths
     `
   }) : ''
 
+const componentMenuItem = (componentName, component, options = {}) => html`
+      <li>
+        <a href="#${componentId(component)}">${componentName}</a>
+      </li>
+    `
+
 const menu = (spec, options = {}) => html`
-  <ul class="oc-main-menu nav flex-column  col-md-3 col-lg-2">
+  <ul class="nav flex-column  col-md-3 col-lg-2">
     ${menuItems(spec.paths, options)}
+  </ul>
+`
+
+const componentCategories = (categories, options = {}) => categories
+  ? Object.keys(categories).map(categoryName => {
+    const components = categories[categoryName]
+
+    return html`
+      <h5>${categoryName}</h5>
+      ${Object.keys(components).map(componentName => componentMenuItem(componentName, components[componentName], options))}
+    `
+  }) : ''
+
+const componentMenu = (components, options = {}) => html`
+  <h4>Components</h4>
+  <ul class="nav flex-column  col-md-3 col-lg-2">
+    ${componentCategories(components, options)}
   </ul>
 `
 
@@ -41,16 +64,21 @@ const specHeader = info => html`
   </header>
 `
 
-const content = (spec, meta) => html`
+const content = (spec, components, meta) => html`
   ${specHeader(spec.info)}
   ${renderPaths(spec.paths, meta)}
-  ${renderComponents(spec.components, meta)}
+  ${renderComponents(components, meta)}
 `
 
-const specContainer = (spec, meta) => html`
+const specContainer = (spec, components, meta) => html`
   <div class="row">
-    <div class="oc-spec-menu col-md-3 col-lg-2">${menu(spec, meta)}</div>
-    <div class="oc-spec-content col-md-9 col-lg-10">${content(spec, meta)}</div>
+    <div class="oc-spec-menu col-md-3 col-lg-2">
+      <div class="oc-main-menu">
+        ${menu(spec, components, meta)}
+        ${componentMenu(components, meta)}
+      </div>
+    </div>
+    <div class="oc-spec-content col-md-9 col-lg-10">${content(spec, components, meta)}</div>
   </div>
 `
 const resolveSpec = async specPath => {
@@ -84,8 +112,9 @@ class OpenAPICandySpec extends HTMLElement {
     console.log(JSON.stringify(spec, 0, 2))
     const meta = { specPath: this.specPath, currentLinkRel: this.currentLinkRel }
 
+    const components = componentsByCategory(spec.components, meta)
     // console.log(JSON.stringify(spec, null, 2))
-    render(specContainer(spec, meta), this)
+    render(specContainer(spec, components, meta), this)
 
     // hljs.initHighlightingOnLoad()
     document.querySelectorAll('pre code').forEach((block) => {

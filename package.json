@@ -26,7 +26,6 @@
     "express": "^4.17.1",
     "lit-html": "^1.1.1",
     "pug": "^2.0.4",
-    "uri-template-lite": "^19.4.0",
-    "yaml-js": "^0.2.3"
+    "uri-template-lite": "^19.4.0"
   }
 }
