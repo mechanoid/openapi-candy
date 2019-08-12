@@ -3,7 +3,7 @@
 import { render } from '/assets/vendor/lit-html/lit-html.js'
 
 import { loadSchema } from '/assets/client/js/util/oc-schema-ref.js'
-import { componentsByCategory } from '/assets/client/js/oc-components.js'
+import { componentsByCategory } from '/assets/client/js/views/oc-components.js'
 import { specLayout } from '/assets/client/js/views/oc-main-menu.js'
 
 const resolveSpec = async specPath => {

@@ -1,6 +1,6 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 
-import { pathOperations } from '/assets/client/js/oc-path-operations.js'
+import { pathOperations } from '/assets/client/js/views/oc-path-operations.js'
 import { apiResourceLink } from '/assets/client/js/uri-templates.js'
 
 const additionalInformation = (path, infoType, options = {}) => {

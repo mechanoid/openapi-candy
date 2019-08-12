@@ -1,6 +1,6 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import { apiResourceLink } from '/assets/client/js/uri-templates.js'
-import { componentId, renderComponents } from '/assets/client/js/oc-components.js'
+import { componentId, renderComponents } from '/assets/client/js/views/oc-components.js'
 import { renderPaths } from '/assets/client/js/views/oc-paths.js'
 
 const menuItem = (path, options) => html`
