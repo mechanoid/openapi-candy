@@ -69,10 +69,12 @@ const collectProperties = (properties, schema, options = { baseName: '' }) => Ob
 const flattenedProperties = (schema, options = {}) => {
   const baseName = options.baseName || ''
 
-  if (schema.properties) {
+  if (schema.$ref) {
+    return [property(null, schema, Object.assign({}, options, { $ref: schema.$ref }))]
+  } else if (schema.properties) {
     return collectProperties(schema.properties, schema, Object.assign({}, options, { type: 'object' }))
   } else if (schema.type === 'array' && schema.items && schema.items.$ref) {
-    return [property(null, schema, Object.assign({}, options, { baseName: `${baseName}[]`, $ref: schema.items.$ref, type: 'array' }))]
+    return [property(null, schema, Object.assign({}, options, { baseName: `${baseName}[]`, $ref: schema.items.$ref }))]
   } else if (schema.type === 'array' && schema.items && schema.items.properties) {
     return collectProperties(schema.items.properties, schema, Object.assign({}, options, { baseName: `${baseName}[]`, type: 'array' }))
   } else {
