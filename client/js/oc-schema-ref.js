@@ -1,5 +1,5 @@
 /* global fetch */
-import { baseUrl } from '/assets/client/js/oc-url-helper.js'
+import { baseUrl } from '/assets/client/js/util/oc-url-helper.js'
 import { isArray, isObject } from '/assets/client/js/util/object-helper.js'
 
 class ArrayWithRef extends Array {

@@ -1,5 +1,5 @@
 /* global btoa */
-import { baseUrl } from '/assets/client/js/oc-url-helper.js'
+import { baseUrl } from '/assets/client/js/util/oc-url-helper.js'
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import { propertyTable } from '/assets/client/js/oc-property-table.js'
 
