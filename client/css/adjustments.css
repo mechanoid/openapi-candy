@@ -1,18 +1,94 @@
 :root {
+  /* defaults */
+  --oc-title-default: 'Openapi Candy';
   --oc-border-radius-default: 2px;
+  --oc-ft-col-default: rgb(10, 20, 10);
+  --oc-ft-col-contrast-default: #fff;
+  --oc-ft-col-menu-default: #978CE9;
+  --oc-ft-col-menu-contrast-default: rgba(151.00000619888306, 140.00000685453415, 233.00000131130219, .5);
+
+
+  --oc-highlight-col-default: #E95FB9;
+  --oc-highlight-2-col-default: #5bc0de;
+
+  --oc-bg-disabled-col-default: #7E7A8F;
+  --oc-bg-body-default: rgb(232.0, 232.0, 248.0);
+  --oc-bg-menu-default: rgb(26.0, 31.0, 66.0);
+  --oc-bg-menu-gradient-default: linear-gradient(50deg, rgb(26.0, 31.0, 66.0) 0%, rgb(57.0, 32.0, 117.0) 100%);
+
+
+  --oc-bd-col-default: #dee2e6;
+
+  /* vars with fallbacks */
+  --oc-title: var(
+    --oc-title-custom,
+    var(--oc-title-default)
+  );
 
   --oc-border-radius: var(
     --oc-border-radius-custom,
     var(--oc-border-radius-default)
   );
+
+  --oc-ft-col: var(
+    --oc-ft-col-custom,
+    var(--oc-ft-col-default)
+  );
+
+  --oc-ft-col-contrast: var(
+    --oc-ft-col-contrast-custom,
+    var(--oc-ft-col-contrast-default)
+  );
+
+  --oc-ft-col-menu: var(
+    --oc-ft-col-menu-custom,
+    var(--oc-ft-col-menu-default)
+  );
+
+  --oc-ft-col-menu-contrast: var(
+    --oc-ft-col-menu-contrast-custom,
+    var(--oc-ft-col-menu-contrast-default)
+  );
+
+  --oc-highlight-col: var(
+    --oc-highlight-col-custom,
+    var(--oc-highlight-col-default)
+  );
+
+  --oc-highlight-2-col: var(
+    --oc-highlight-2-col-custom,
+    var(--oc-highlight-2-col-default)
+  );
+
+  --oc-bg-disabled-col: var(
+    --oc-bg-disabled-col-custom,
+    var(--oc-bg-disabled-col-default)
+  );
+
+  --oc-bg-body: var(
+    --oc-bg-body-custom,
+    var(--oc-bg-body-default)
+  );
+
+  --oc-bg-menu: var(
+    --oc-bg-menu-custom,
+    var(--oc-bg-menu-default)
+  );
+
+  --oc-bg-menu-gradient: var(
+    --oc-bg-menu-gradient-custom,
+    var(--oc-bg-menu-gradient-default)
+  );
+
+  --oc-bd-col: var(
+    --oc-bd-col-custom,
+    var(--oc-bd-col-default)
+  );
 }
 
 body {
-  /* color: #fff; */
-  background-color: rgb(232.0, 232.0, 248.0);
+  background-color: var(--oc-bg-body);
   font-family: 'Lato', sans-serif;
-  /* padding: 2rem 1rem; */
-
 }
 
 pre {
@@ -26,7 +102,7 @@ pre code {
 }
 
 a:link, a:visited, a:hover, a:active {
-  color: #E95FB9;
+  color: var(--oc-highlight-col);
 }
 
 .lead {
@@ -35,10 +111,6 @@ a:link, a:visited, a:hover, a:active {
 
 p {
   font-size: .875rem;
-}
-
-h1, h2 {
-  /* color: #fff; */
 }
 
 h6 {
@@ -56,8 +128,8 @@ tbody {
 
 .card {
   border-color: transparent;
-  color: rgb(10, 20, 10);
-  border-radius: 2px !important;
+  color: var(--oc-ft-col);
+  border-radius: var(--oc-border-radius) !important;
   padding: 1rem;
 }
 
@@ -93,13 +165,13 @@ tbody {
 }
 
 .nav.nav-pills a.disabled {
-  background-color: #7E7A8F;
+  background-color: var(--oc-bg-disabled-col);
 }
 
 .nav-pills .nav-link.active,
 .nav-pills .nav-link:hover {
-  color: #fff;
-  background-color: #E95FB9;
+  color: var(--oc-ft-col-contrast);
+  background-color: var(--oc-highlight-col);
 }
 
 /* cards */
@@ -109,7 +181,7 @@ tbody {
 
 /* callouts */
 .oc-callout {
-  border: 1px solid #eee;
+  border: 1px solid var(--oc-bd-col);
   padding: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -120,7 +192,7 @@ tbody {
 }
 
 .oc-callout-info {
-  border-left: 0.25rem solid #5bc0de;
+  border-left: 0.25rem solid var(--oc-highlight-2-col);
 }
 
 /* oc-request-body-content {
@@ -137,7 +209,7 @@ oc-request-body-content .nav-link {
 }
 oc-request-body-content .nav-link:hover,
 oc-request-body-content .nav-link.active {
-  color: #000;
+  color: var(--oc-ft-col);
   font-weight: bold;
 }
 
@@ -150,10 +222,6 @@ oc-request-body-content .row {
     margin-left: -7rem;
     margin-right: -7rem;
     padding: 1rem 6rem;
-
-    /* background-color: rgb(255.0, 245.0, 244.0); */
-
-    /* background: linear-gradient(70deg, rgb(107.0, 25.0, 156.0) 0%, rgb(15.0, 0.0, 92.0) 100%); */
 }
 
 oc-tabbed-content.simple .nav-pills a:link,
@@ -161,32 +229,27 @@ oc-tabbed-content.simple .nav-pills a:visited,
 oc-tabbed-content.simple .nav-pills a:hover,
 oc-tabbed-content.simple .nav-pills a:active,
 oc-tabbed-content.simple .nav-pills a {
-  color: #000;
+  color: var(--oc-ft-col);
   background-color: transparent;
   padding-bottom: .2rem;
   margin-bottom: .5rem;
 }
 
 oc-tabbed-content.simple .nav-pills a.active {
-  border-bottom: 2px solid #E95FB9;
+  border-bottom: 2px solid var(--oc-highlight-col);
 }
 
 oc-tabbed-content .nav.flex-column {
-  border-right: 1px solid #dee2e6;
+  border-right: 1px solid var(--oc-bd-col);
 }
 
 .oc-request-body-tab-content {
   padding: 2rem;
-  background-color: #fff;
-  border-radius: 2px;
-}
-.oc-request-body-tab-content pre{
-  /* color: #fff; */
+  border-radius: var(--oc-border-radius);
 }
 
 .oc-tabbed-content-tab-panel {
   display: none;
-  /* margin: 1rem 0; */
 }
 
 .oc-tabbed-content-tab-panel.active {
@@ -218,7 +281,7 @@ oc-path-operations {
 
 oc-path-operations .tab-content {
   padding-top: 0.5rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid  var(--oc-bd-col);
 }
 
 oc-path-operation .lead {
@@ -245,12 +308,11 @@ oc-path-operation .lead {
   top: 25%;
   left: -1.5rem;
   color: transparent;
-  /* text-shadow: 0px 0px 0 #ababab; */
 
 }
 
 .oc-anchor-copy-help:hover:before {
-  text-shadow: 0px 0px 0 #E95FB9;
+  text-shadow: 0px 0px 0 var(--oc-highlight-col);
   font-size: .75em;
 }
 
@@ -261,9 +323,9 @@ oc-path-operation .lead {
 }
 
 .oc-spec-menu {
-  background-color: rgb(26.0, 31.0, 66.0);
-  background: linear-gradient(50deg, rgb(26.0, 31.0, 66.0) 0%, rgb(57.0, 32.0, 117.0) 100%);
-  color: #fff;
+  background-color: var(--oc-bg-menu);
+  background: var(--oc-bg-menu-gradient);
+  color: var(--oc-ft-col-contrast);
 }
 
 .oc-spec-menu li {
@@ -271,31 +333,30 @@ oc-path-operation .lead {
 }
 .oc-spec-menu a {
   display: block;
-  color: #978CE9;
+  color: var(--oc-ft-col-menu);
   font-weight: bold;
   /* text-align: center; */
   padding: .5rem;
-  border-radius: 2px;
+  border-radius: var(--oc-border-radius);
   margin-right: 1rem;
   transition: 0.3s;
 }
 
 .oc-spec-menu a.active, .oc-spec-menu a:hover {
-  background-color: rgba(151.00000619888306, 140.00000685453415, 233.00000131130219, .5);
+  background-color: var(--oc-ft-col-menu-contrast);
 
-  color: #fff;
+  color: var(--oc-ft-col-contrast);
   text-decoration: none;
 }
 
 
-
 .oc-main-menu:before {
-  content: 'Openapi Candy';
+  content: var(--oc-title);
   display: block;
   width: 100%;
   position: absolute;
   top: -2.5rem;
-  color: #fff;
+  color: var(--oc-ft-col-contrast);
   font-family: 'Leckerli One', cursive;
   font-size: 1.3rem;
   text-align: center;
@@ -329,7 +390,6 @@ oc-path-operation .lead {
   font-weight: normal;
   text-align: left;
   font-size: .875em;
-  /* color: #978CE9; */
 }
 
 @media (min-width: 600px) {
@@ -347,14 +407,4 @@ oc-path-operation .lead {
   .oc-main-menu {
     display: none;
   }
-}
-
-/* oc-request-body .lead {
-  font-weight: normal;
-  /* font-style: italic; */
-} */
-
-
-oc-request-body-content .nav-item a {
-  /* background-color: red; */
 }
