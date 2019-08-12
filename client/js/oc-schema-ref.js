@@ -1,5 +1,6 @@
 /* global fetch */
 import { baseUrl } from '/assets/client/js/oc-url-helper.js'
+import { isArray, isObject } from '/assets/client/js/util/object-helper.js'
 
 class ArrayWithRef extends Array {
   set $ref (ref) {
@@ -10,22 +11,6 @@ class ArrayWithRef extends Array {
     return this._$ref
   }
 }
-
-const typeOfObject = object => {
-  const objectTypePattern = /\[object (.*)\]/
-  const stringifiedType = Object.prototype.toString.call(object)
-  const match = stringifiedType.match(objectTypePattern)
-
-  if (match) {
-    return match[1]
-  } else {
-    throw new Error(`unknown type of object for "${object}"`)
-  }
-}
-
-const isObject = object => typeOfObject(object) === 'Object'
-
-const isArray = object => typeOfObject(object) === 'Array'
 
 const propertiesFromHash = rawHash => {
   const hash = rawHash.slice(1) // remove #
