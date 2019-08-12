@@ -2,8 +2,10 @@
 
 class TabbedContent extends HTMLElement {
   connectedCallback () {
-    this.tabs = this.querySelectorAll('.oc-tabbed-content-tab')
-    this.panels = this.querySelectorAll('.oc-tabbed-content-tab-panel')
+    this.tabs = this.querySelectorAll(this.tabSelector)
+    this.panels = this.querySelectorAll(this.panelSelector)
+
+    console.log(this.panels)
 
     this.tabs.forEach(tab => {
       tab.addEventListener('click', e => {
@@ -17,6 +19,14 @@ class TabbedContent extends HTMLElement {
         selectedPanel.classList.add('active')
       })
     })
+  }
+
+  get tabSelector () {
+    return this.getAttribute('tab-selector') || '.oc-tabbed-content-tab'
+  }
+
+  get panelSelector () {
+    return this.getAttribute('panel-selector') || '.oc-tabbed-content-tab-panel'
   }
 }
 

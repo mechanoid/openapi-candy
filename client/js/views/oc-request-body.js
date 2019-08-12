@@ -1,36 +1,61 @@
+/* global btoa */
+
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import '/assets/client/js/components/oc-tabbed-content.js'
 
 import { propertyTable } from '/assets/client/js/views/oc-property-table.js'
 
-const contentTypeBody = (contentType, bodyFormat) => html`
-  <oc-tabbed-content>
-    <h6>${contentType}</h6>
+const tabLink = (text, target, options = {}) => html`<li class="nav-item">
+    <a href="" class="nav-link ${options.active ? 'active' : ''} ${options.tabClass || 'oc-tabbed-content-tab'}" data-target="${target}">${text}</a>
+  </li>`
 
+const mimeTypeBody = mimeType => html`
+  <oc-tabbed-content>
     <ul class="nav nav-pills">
-      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link active" data-target="properties">Properties</a></li>
-      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link" data-target="examples">Examples</a></li>
-      <li class="nav-item"><a href="" class="oc-tabbed-content-tab nav-link" data-target="schema">Schema</a></li>
+      ${tabLink('Properties', 'properties', { active: true })}
+      ${tabLink('Examples', 'examples')}
+      ${tabLink('Schema', 'schema')}
     </ul>
     <div class="oc-tabbed-content-tab-panel active" data-content="properties">
-      ${propertyTable(bodyFormat.schema)}
+      ${propertyTable(mimeType.schema)}
     </div>
     <div class="oc-tabbed-content-tab-panel" data-content="examples">
-      <pre><code class="JSON">${JSON.stringify(bodyFormat.example || bodyFormat.examples, null, 2)}</code></pre>
+      <pre><code class="JSON">${JSON.stringify(mimeType.example || mimeType.examples, null, 2)}</code></pre>
     </div>
     <div class="oc-tabbed-content-tab-panel" data-content="schema">
-      <pre><code class="JSON">${JSON.stringify(bodyFormat.schema, null, 2)}</code></pre>
+      <pre><code class="JSON">${JSON.stringify(mimeType.schema, null, 2)}</code></pre>
     </div>
   </oc-tabbed-content>
   `
 
-const requestBodyContent = content => {
-  const contentTypes = Object.keys(content)
+const mimeType = (mimeTypeName, mimeType, id, options = {}) => html`
+  <oc-mime-type class="${options.panelClass} ${options.active ? 'active' : ''}" data-content="${id}">
+    <h6>${mimeTypeName}</h6>
+    ${mimeTypeBody(mimeType)}
+  </oc-mime-type>
+`
 
+const mimeTypes = (mimeTypes, body) => html`
+<oc-tabbed-content tab-selector=".oc-mime-tab" panel-selector=".oc-mime-panel" class="row">
+  <ul class="nav flex-column nav-pills col-md-3">
+    ${Object.keys(mimeTypes)
+    .map((mimeTypeName, index) =>
+      tabLink(mimeTypeName, btoa(mimeTypeName), { active: index === 0, tabClass: 'oc-mime-tab' }))}
+  </ul>
+
+  <div class="flex-column nav-pills col-md-9">
+    ${Object.keys(mimeTypes)
+    .map((mimeTypeName, index) =>
+      mimeType(mimeTypeName, mimeTypes[mimeTypeName], btoa(mimeTypeName), { active: index === 0, panelClass: 'oc-mime-panel' }))}
+  </div>
+</oc-tabbed-content>
+`
+
+const requestBodyContent = content => {
   return html`
   <oc-request-body-content>
-        ${contentTypes.map((contentType) => contentTypeBody(contentType, content[contentType]))}
-    </div>
+    ${mimeTypes(content)}
+
   </oc-request-body-content>`
 }
 
