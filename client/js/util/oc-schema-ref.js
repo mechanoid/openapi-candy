@@ -37,6 +37,7 @@ export const resolveObjectRefRef = async (item, options = {}) => {
   if (options.resolveChain.indexOf(url.toString()) >= 0) {
     throw new Error(`circular spec reference for ${url}`)
   }
+
   return fetch(url, { method: 'GET', mode: 'cors', credentials: 'include', redirect: 'follow' })
     .then(res => {
       if (!res.ok) {
@@ -60,7 +61,7 @@ export const resolveObjectRefRef = async (item, options = {}) => {
     })
     .then(res => {
       if (isArray(res)) {
-        return new ArrayWithRef(res)
+        return ArrayWithRef.from(res)
       }
 
       return res
