@@ -37,7 +37,7 @@ export const resolveObjectRefRef = async (item, options = {}) => {
   if (options.resolveChain.indexOf(url.toString()) >= 0) {
     throw new Error(`circular spec reference for ${url}`)
   }
-  return fetch(url, { credentials: 'same-origin', redirect: 'follow' })
+  return fetch(url, { method: 'GET', mode: 'cors', credentials: 'include', redirect: 'follow' })
     .then(res => {
       if (!res.ok) {
         throw new Error(`cannot resolve $ref ${ref}`)
