@@ -11,7 +11,7 @@ const badge = (param, text, options = {}) => {
     : ''
 }
 
-const propertyRow = (property) => {
+const propertyRow = (schema, property) => {
   const data = property.data || {}
 
   return html`
@@ -20,7 +20,7 @@ const propertyRow = (property) => {
     <td>${data && data.description}</td>
     <td>${data.format || data.type || property.type}${data.default ? `(${data.default})` : ''}</td>
     <td>
-      ${property.required ? badge(true, 'required') : ''}
+      ${propRequired(schema, property.name) ? badge(true, 'required') : ''}
     </td>
   </tr>
 `
@@ -98,7 +98,7 @@ export const propertyTable = (schema) => {
         </tr>
       </thead>
       <tbody>
-        ${properties.map(p => p.$ref ? refRow(p) : propertyRow(p))}
+        ${properties.map(p => p.$ref ? refRow(p) : propertyRow(schema, p))}
       </tbody>
     </table>
   `
