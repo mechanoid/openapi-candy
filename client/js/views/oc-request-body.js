@@ -3,11 +3,6 @@ import '/assets/client/js/components/oc-tabbed-content.js'
 
 import { propertyTable } from '/assets/client/js/oc-property-table.js'
 
-// const contentTypeMenuItem = (contentType, first) => html`
-//   <li class="nav-item active">
-//     <a href="" class="nav-link oc-content-type-switch ${first ? 'active' : ''}" data-target="${contentType}">${contentType}</a>
-//   </li>`
-
 const contentTypeBody = (contentType, bodyFormat) => html`
   <oc-tabbed-content>
     <h6>${contentType}</h6>

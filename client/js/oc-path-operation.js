@@ -2,7 +2,7 @@
 
 import { render, html } from '/assets/vendor/lit-html/lit-html.js'
 import { parameters } from '/assets/client/js/oc-parameters.js'
-import { requestBody } from '/assets/client/js/oc-request-body.js'
+import { requestBody } from '/assets/client/js/views/oc-request-body.js'
 import { responses } from '/assets/client/js/views/oc-responses.js'
 
 const optionalText = (operation, textProperty, lead = false) => {
