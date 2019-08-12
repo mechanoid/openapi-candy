@@ -8,11 +8,11 @@ const componentCategories = ['schemas', 'responses', 'parameters', 'examples', '
 const componentHash = (category, componentName) => `#/components/${category}/${componentName}`
 
 export const componentId = component => {
-  if (!component.ref) {
+  if (!component.ref && !component.$ref) {
     throw new Error(`no $ref associated with this componeent, ${component ? JSON.stringify(component, null, 2) : component}`)
   }
 
-  return btoa(component.ref)
+  return btoa(component.ref || component.$ref)
 }
 
 export const componentsByCategory = (components, options = {}) => componentCategories.reduce((categories, category) => {

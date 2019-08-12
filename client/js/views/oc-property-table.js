@@ -1,5 +1,6 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
 import { isArray } from '/assets/client/js/util/object-helper.js'
+import { componentId } from '/assets/client/js/views/oc-components.js'
 
 const propRequired = (schema, propName) => schema.required && schema.required.indexOf(propName) >= 0
 
@@ -25,8 +26,30 @@ const propertyRow = (property) => {
 `
 }
 
+const refRow = (property) => {
+  const data = property.data || {}
+
+  return html`
+  <tr>
+    <td>${property.name}</td>
+    <td>${data && data.description}</td>
+    <td colspan="2"><a href="#${componentId(property)}">${property.$ref}</a></td>
+  </tr>
+`
+}
+
+const propertyPrintName = (propName, options = {}) => {
+  const name = propName || ''
+
+  if (options.baseName) {
+    return name !== '' ? `${options.baseName}.${name}` : options.baseName
+  }
+
+  return name
+}
+
 const property = (propName, prop, options = {}) => ({
-  name: options.baseName ? `${options.baseName}.${propName}` : propName,
+  name: propertyPrintName(propName, options),
   data: !options.$ref ? flattenedProperties(prop, { baseName: options.baseName ? `${options.baseName}.${propName}` : propName }) : null,
   $ref: options.$ref,
   type: options.type
@@ -75,7 +98,7 @@ export const propertyTable = (schema) => {
         </tr>
       </thead>
       <tbody>
-        ${properties.map(propertyRow)}
+        ${properties.map(p => p.$ref ? refRow(p) : propertyRow(p))}
       </tbody>
     </table>
   `
