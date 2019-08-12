@@ -177,35 +177,6 @@ oc-path-operation .lead {
   /* font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; */
 }
 
-/* oc-foldable header {
-  user-select: none;
-  position: relative;
-  cursor: pointer;
-  padding-left: 1rem;
-}
-
-oc-foldable header:before {
-  content: '\25B6';
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translateY(-50%);
-  font-weight: bold;
-  font-size: .75em;
-}
-
-oc-foldable.show header:before {
-  transform: translateY(-50%) rotate(90deg);
-}
-
-
-oc-foldable-container {
-  display: none;
-}
-oc-foldable.show oc-foldable-container {
-  display: block;
-} */
-
 .oc-anchor-copy-help {
   position: relative;
 }

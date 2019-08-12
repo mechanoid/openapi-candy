@@ -42,26 +42,22 @@ const parameterSection = (type, parameters) => {
 
     return html`
       <oc-param-section>
-        <oc-foldable>
-          <header>
-            <h5>${type} parameters</h5>
-          </header>
-          <oc-foldable-container>
-            <table class="table">
-              <tbody></tbody>
-              <thead>
-                <th>parameter</th>
-                <th>Description</th>
-                <th>type</th>
-                <th>Info</th>
-                <th>example</th>
-              </thead>
-              <tbody>
-                ${paramRows}
-              </tbody>
-            </table>
-          </oc-foldable-container>
-        </oc-foldable>
+        <header>
+          <h5>${type} parameters</h5>
+        </header>
+        <table class="table">
+          <tbody></tbody>
+          <thead>
+            <th>parameter</th>
+            <th>Description</th>
+            <th>type</th>
+            <th>Info</th>
+            <th>example</th>
+          </thead>
+          <tbody>
+            ${paramRows}
+          </tbody>
+        </table>
       </oc-param-section>
     `
   }

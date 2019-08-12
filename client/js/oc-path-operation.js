@@ -5,8 +5,6 @@ import { parameters } from '/assets/client/js/oc-parameters.js'
 import { requestBody } from '/assets/client/js/oc-request-body.js'
 import { responses } from '/assets/client/js/oc-responses.js'
 
-import '/assets/client/js/oc-foldable.js'
-
 const optionalText = (operation, textProperty, lead = false) => {
   // TODO: support commonmark
   if (operation[textProperty]) {
