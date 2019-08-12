@@ -1,5 +1,5 @@
 import { html } from '/assets/vendor/lit-html/lit-html.js'
-import '/assets/client/js/oc-tabbed-content.js'
+import '/assets/client/js/components/oc-tabbed-content.js'
 
 const response = (code, response) => html`<tr>
   <td>${code}</td>
