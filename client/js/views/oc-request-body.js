@@ -16,7 +16,7 @@ export const requestBody = (operation, options = {}) => {
     return html`
       <oc-request-body>
         <header>
-          <h4>request body${requestBody.required ? '*' : ''}</h4>
+          <h4>Request Body${requestBody.required ? '*' : ''}</h4>
         </header>
         ${requestBody.description ? html`<p class="lead">${requestBody.description}</p>` : ''}
         ${requestBodyContent(requestBody.content)}

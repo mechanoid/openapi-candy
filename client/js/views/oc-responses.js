@@ -14,14 +14,17 @@ const responseHeaders = headers => {
 
 const responseSection = (responseCode, response) => {
   return html`
-  <h5>${responseCode}</h5>
+  <h5>${responseCode}:</h5>
   ${response.description ? html`<p class="">${response.description}</p>` : ''}
 
-  <h6>Header</h6>
-  ${responseHeaders(response.headers)}
+  ${response.headers ? html`
+    <h6>Header</h6>
+    ${responseHeaders(response.headers)}` : ''}
 
-  <h6>Content</h6>
-  ${mimeTypes(response.content)}`
+  ${response.content ? html`
+    <h6>Content</h6>
+    ${mimeTypes(response.content)}` : ''}
+  `
 }
 
 export const responses = (operation, options = {}) => {

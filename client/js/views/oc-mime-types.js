@@ -6,22 +6,24 @@ import '/assets/client/js/components/oc-tabbed-content.js'
 import { propertyTable } from '/assets/client/js/views/oc-property-table.js'
 
 const tabLink = (text, target, options = {}) => html`<li class="nav-item">
-    <a href="" class="nav-link ${options.active ? 'active' : ''} ${options.tabClass || 'oc-tabbed-content-tab'}" data-target="${target}">${text}</a>
+    <a href="" class="nav-link ${options.active ? 'active' : ''} ${options.disabled ? 'disabled' : ''} ${options.tabClass || 'oc-tabbed-content-tab'}" data-target="${target}">${text}</a>
   </li>`
 
 const mimeTypeBody = mimeType => html`
-  <oc-tabbed-content>
+  <oc-tabbed-content class="simple">
     <ul class="nav nav-pills">
       ${tabLink('Properties', 'properties', { active: true })}
-      ${tabLink('Examples', 'examples')}
+      ${mimeType.example || mimeType.examples ? tabLink('Examples', 'examples') : ''}
       ${tabLink('Schema', 'schema')}
     </ul>
     <div class="oc-tabbed-content-tab-panel active" data-content="properties">
       ${propertyTable(mimeType.schema)}
     </div>
-    <div class="oc-tabbed-content-tab-panel" data-content="examples">
+    ${mimeType.example || mimeType.examples ? html`
+      <div class="oc-tabbed-content-tab-panel" data-content="examples">
       <pre><code class="JSON">${JSON.stringify(mimeType.example || mimeType.examples, null, 2)}</code></pre>
-    </div>
+      </div>` : ''}
+
     <div class="oc-tabbed-content-tab-panel" data-content="schema">
       <pre><code class="JSON">${JSON.stringify(mimeType.schema, null, 2)}</code></pre>
     </div>
@@ -36,11 +38,11 @@ const mimeType = (mimeTypeName, mimeType, id, options = {}) => html`
 `
 
 export const mimeTypes = mimeTypes => mimeTypes ? html`
-<oc-tabbed-content tab-selector=".oc-mime-tab" panel-selector=".oc-mime-panel" class="row">
+<oc-tabbed-content tab-selector=".oc-mime-tab" panel-selector=".oc-mime-panel" class="mime-type-container row">
   <ul class="nav flex-column nav-pills col-md-3">
     ${Object.keys(mimeTypes)
     .map((mimeTypeName, index) =>
-      tabLink(mimeTypeName, btoa(mimeTypeName), { active: index === 0, tabClass: 'oc-mime-tab' }))}
+      tabLink(mimeTypeName, btoa(mimeTypeName), { active: index === 0, disabled: Object.keys(mimeTypes).length === 1, tabClass: 'oc-mime-tab' }))}
   </ul>
 
   <div class="flex-column nav-pills col-md-9">
